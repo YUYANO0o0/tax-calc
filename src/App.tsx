@@ -30,7 +30,7 @@ function App() {
 
   const labels: Record<Lang, { title: string, items: string[], refundDesc: string }> = {
     ja: {
-      title: "免税・ショッピングクーポン使用後の最終価格",
+      title: "免税・ショッピングクーポン\n使用後の最終価格", // 改行追加
       items: [
         "価格（税込）", 
         "価格（税抜）", 
@@ -86,7 +86,15 @@ function App() {
 
     return (
       <div style={{ paddingBottom: '10px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #eee' }}>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          padding: emphasize ? '10px' : '12px 0', 
+          borderBottom: emphasize ? 'none' : '1px solid #eee',
+          border: emphasize ? '3px solid red' : 'none', // 赤い太枠
+          borderRadius: emphasize ? '8px' : '0px'
+        }}>
           <span style={{ flex: 1, paddingRight: '15px', textAlign: 'center' }}>
             {parts.map((part: string, i: number) => (
               <span key={i} style={{ 
@@ -117,7 +125,7 @@ function App() {
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto', fontFamily: "'Noto Sans SC', 'Noto Sans JP', sans-serif" }}>
-      {/* 言語切り替えボタンエリア：完全固定 */}
+      {/* 言語切り替えボタンエリア */}
       <div style={{ display: 'flex', gap: '0px', marginBottom: '20px', width: '100%' }}>
         {[
           { id: 'ja', label: '日本語' },
@@ -129,16 +137,16 @@ function App() {
             key={item.id} 
             onClick={() => setLang(item.id as Lang)}
             style={{ 
-              flex: '1 1 25%', // 25%幅を厳密に指定
-              height: '40px', // 高さを固定
+              flex: '1 1 25%',
+              height: '40px',
               cursor: 'pointer',
               backgroundColor: lang === item.id ? '#ddd' : '#f4f4f4',
               border: '2px solid',
               borderColor: lang === item.id ? '#333' : '#ccc',
-              boxSizing: 'border-box', // サイズ計算を厳密に
+              boxSizing: 'border-box',
               fontWeight: 'bold', 
               whiteSpace: 'nowrap',
-              margin: '0', // 余白を消す
+              margin: '0',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
@@ -149,7 +157,7 @@ function App() {
         ))}
       </div>
 
-      <h2 style={{ fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px' }}>{current.title}</h2>
+      <h2 style={{ fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px', whiteSpace: 'pre-line' }}>{current.title}</h2>
 
       <div style={{ fontSize: '0.95rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '2px solid #333', alignItems: 'center' }}>
