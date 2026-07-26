@@ -1,0 +1,15 @@
+{
+  "name": "TAX-FREE COUPON",
+  "short_name": "TAX-CALC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/icons.png",
+      "type": "image/png",
+      "sizes": "any"
+    }
+  ]
+}
