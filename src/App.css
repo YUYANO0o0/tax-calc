@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Sans+SC&display=swap');
+
+/* 全体のデフォルトフォント */
+body {
+  font-family: 'Noto Sans SC', 'Noto Sans JP', sans-serif;
+}
+
+/* ボタンや見出しのデフォルト設定を強制的に上書き */
+button, h2 {
+  font-family: 'Noto Sans SC', 'Noto Sans JP', sans-serif;
+}
+
+/* ボタンの見た目を整える */
+button {
+  padding: 8px 16px;
+  cursor: pointer;
+}
