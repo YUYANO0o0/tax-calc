@@ -67,15 +67,18 @@ function App() {
   const Row = ({ label, value, code, bold = false, highlight = false, isRefund = false, emphasize = false, finalPrice = false }: any) => {
     const lines = typeof label === 'string' ? label.split('\n') : [label];
 
-    // 「【最終価格】」という文字列を赤くするための関数
+    // 各言語の「最終価格」ラベルを判定して赤くする
     const renderLabel = (text: string) => {
-      if (text.includes("【最終価格】")) {
-        return (
-          <>
-            <span style={{ color: 'red' }}>【最終価格】</span>
-            {text.replace("【最終価格】", "")}
-          </>
-        );
+      const targets = ["【最終価格】", "【最终价格】", "【最終價格】", "【Final Price】"];
+      for (const target of targets) {
+        if (text.includes(target)) {
+          return (
+            <>
+              <span style={{ color: 'red' }}>{target}</span>
+              {text.replace(target, "")}
+            </>
+          );
+        }
       }
       return text;
     };
@@ -95,7 +98,6 @@ function App() {
             {lines.map((line: string, index: number) => (
               <span key={index} style={{ 
                 display: 'block',
-                // 見出し(index 0)は常に通常サイズ、それ以外(説明文)は小さく
                 fontSize: index === 0 ? '0.95rem' : '0.8rem',
                 color: index === 0 ? 'inherit' : '#aaa',
                 fontWeight: (index === 0 && !emphasize && bold) ? 'bold' : 'normal'
