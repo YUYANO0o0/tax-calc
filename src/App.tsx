@@ -62,11 +62,23 @@ function App() {
   };
 
   const current = labels[lang];
-  // 文字色を 'inherit' にすることで、親要素（ブラウザの設定）に従うように修正
   const RedCode = ({ code }: { code: string }) => <span style={{ color: '#ff7e7e', width: '30px', textAlign: 'right', flexShrink: 0, alignSelf: 'center' }}>{code}</span>;
 
   const Row = ({ label, value, code, bold = false, highlight = false, isRefund = false, emphasize = false, finalPrice = false }: any) => {
     const lines = typeof label === 'string' ? label.split('\n') : [label];
+
+    // 「【最終価格】」という文字列を赤くするための関数
+    const renderLabel = (text: string) => {
+      if (text.includes("【最終価格】")) {
+        return (
+          <>
+            <span style={{ color: 'red' }}>【最終価格】</span>
+            {text.replace("【最終価格】", "")}
+          </>
+        );
+      }
+      return text;
+    };
 
     return (
       <div style={{ paddingBottom: '10px' }}>
@@ -76,26 +88,25 @@ function App() {
           alignItems: 'center', 
           padding: emphasize ? '10px' : '12px 0', 
           borderBottom: emphasize ? 'none' : '1px solid #eee',
-          border: emphasize ? '3px solid #ff7e7e' : 'none', // 赤枠を少し柔らかい色に
+          border: emphasize ? '3px solid #ff7e7e' : 'none',
           borderRadius: emphasize ? '8px' : '0px'
         }}>
           <span style={{ flex: 1, paddingRight: '15px', textAlign: 'center' }}>
             {lines.map((line: string, index: number) => (
               <span key={index} style={{ 
                 display: 'block',
-                fontSize: (emphasize || isRefund || index > 0) ? '0.8rem' : '0.95rem',
-                // ダークモードでも見えるよう明示的な黒(#000)をやめて inherit (継承) に変更
-                color: (emphasize || isRefund || index > 0) ? '#aaa' : 'inherit',
+                // 見出し(index 0)は常に通常サイズ、それ以外(説明文)は小さく
+                fontSize: index === 0 ? '0.95rem' : '0.8rem',
+                color: index === 0 ? 'inherit' : '#aaa',
                 fontWeight: (index === 0 && !emphasize && bold) ? 'bold' : 'normal'
               }}>
-                {line}
+                {renderLabel(line)}
               </span>
             ))}
           </span>
           <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <span style={{ 
               fontWeight: (bold || emphasize || finalPrice) ? 'bold' : 'normal', 
-              // ダークモードで映える明るめの色に変更
               color: finalPrice ? '#ff7e7e' : (highlight ? '#ff9999' : 'inherit'), 
               marginRight: '15px',
               fontSize: finalPrice ? '1.5rem' : (emphasize ? '1.5rem' : '0.95rem')
