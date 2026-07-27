@@ -30,30 +30,30 @@ function App() {
 
   const labels: Record<Lang, { title: string, items: string[], refundDesc: string }> = {
     ja: {
-      title: "免税・ショッピングクーポン\n使用後の最終価格", // 改行追加
+      title: "免税・ショッピングクーポン<br />使用後の最終価格", // 改行追加
       items: [
         "価格（税込）", 
         "価格（税抜）", 
-        "ショッピングクーポン使用\n5%OFF価格 (b)×0.95", 
+        "ショッピングクーポン使用<br />5%OFF価格 (b)×0.95", 
         "【消費税】 10% (c)×0.1", 
         "【手数料】 1.55% (c)×0.0155", 
-        "【免税額】 (d-e)\n※免税カウンターで免税手続きをして返ってくる現金", 
-        "ショッピングクーポン使用\n5%OFF価格税込(c)×1.1\n【店で支払う金額】", 
-        "最終価格 (g) - (f)", 
+        "【免税額】 (d-e)<br />※免税カウンターで免税手続きをして返ってくる現金", 
+        "ショッピングクーポン使用<br />5%OFF価格税込(c)×1.1<br />【店で支払う金額】", 
+        "【最終価格】 (g) - (f)", 
         "得した金額 (a) - (h)"
       ],
     },
     'zh-CN': {
       title: "免税/购物优惠券使用后的最终价格",
-      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用5%OFF价格 (b)×0.95", "【消费税 10%】  (c)×0.1", "【手续费 1.55%】  (c)×0.0155", "【免税额】  (d-e)\n※在退税柜台办理免税手续后退回的现金 ", "购物优惠券使用5%OFF含税价格(c)×1.1\n【店內应付金额】", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用 5%OFF价格 (b)×0.95", "【消费税 10%】  (c)×0.1", "【手续费 1.55%】  (c)×0.0155", "【免税额】  (d-e)<br />※在退税柜台办理免税手续后退回的现金 ", "购物优惠券使用5%OFF含税价格(c)×1.1<br />【店內应付金额】", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
     },
     'zh-TW': {
       title: "免稅/購物優惠券使用後的最終價格",
-      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用5%OFF價格 (b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)\n※在退稅櫃檯辦理免稅手續後退回的現金 ", "購物優惠券使用5%OFF含稅價格(c)×1.1\n【店內应付金额】", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用 5%OFF價格 (b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)<br />※在退稅櫃檯辦理免稅手續後退回的現金 ", "購物優惠券使用5%OFF含稅價格(c)×1.1<br />【店內应付金额】", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
     },
     en: {
       title: "Final Price After Tax Exemption & Shopping Coupon",
-      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "5% OFF Price with Coupon (b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)\nThe tax refund received after completing the tax-free procedure at the counter.", "5% OFF Price (Tax Incl)\n【 Amount due at the store 】", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
+      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "5% OFF Price with Coupon (b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)<br />※The tax refund received after completing the tax-free procedure at the counter.", "5% OFF Price (Tax Incl)<br />【 Amount due at the store 】", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
     }
   };
 
