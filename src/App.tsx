@@ -38,7 +38,7 @@ function App() {
         "【消費税 10%】 (c)×0.1",
         "【手数料 1.55%】 (c)×0.0155",
         "【免税額】 (d-e)",
-        "ショッピングクーポン使用\n5%OFF価格税込(c)×1.1\n【店で支払う金額】",
+        "【店で支払う金額】\nショッピングクーポン使用\n5%OFF価格税込(c)×1.1",
         "【最終価格】 (g) - (f)",
         "得した金額 (a) - (h)"
       ],
@@ -46,17 +46,17 @@ function App() {
     },
     'zh-CN': {
       title: "免税/购物优惠券使用后的最终价格",
-      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用\n5%OFF价格 (b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "购物优惠券使用5%OFF含税价格(c)×1.1\n【店內应付金额】", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用\n5%OFF价格　(b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "【店內应付金额】\n购物优惠券使用5%OFF含税价格(c)×1.1", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
       refundDesc: "※在退税柜台办理免税手续后退回的现金"
     },
     'zh-TW': {
       title: "免稅/購物優惠券使用後的最終價格",
-      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用\n5%OFF價格 (b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "購物優惠券使用5%OFF含稅價格(c)×1.1\n【店內应付金额】", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用\n5%OFF價格　(b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "【店內应付金额】\n購物優惠券使用5%OFF含稅價格(c)×1.1", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
       refundDesc: "※在退稅櫃檯辦理免稅手續後退回的現金"
     },
     en: {
       title: "Final Price After Tax Exemption & Shopping Coupon",
-      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "5% OFF Price with Coupon\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)", "5% OFF Price (Tax Incl)\n【 Amount due at the store 】", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
+      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "5% OFF Price with Coupon\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】\n(d-e)", "【 Amount due at the store 】\n5% OFF Price (Tax Incl)", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
       refundDesc: "※The tax refund received after completing the tax-free procedure at the counter."
     }
   };
