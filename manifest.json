@@ -1,6 +1,6 @@
 {
-  "name": "TAX-FREE COUPON",
-  "short_name": "TAX-CALC",
+  "name": "免税クーポン計算",
+  "short_name": "免税クーポン計算",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
