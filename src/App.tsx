@@ -30,30 +30,34 @@ function App() {
 
   const labels: Record<Lang, { title: string, items: string[], refundDesc: string }> = {
     ja: {
-      title: "免税・ショッピングクーポン<br />使用後の最終価格", // 改行追加
+      title: "免税・ショッピングクーポン\n使用後の最終価格",
       items: [
-        "価格（税込）", 
-        "価格（税抜）", 
-        "ショッピングクーポン使用<br />5%OFF価格&nbsp;&nbsp;(b)×0.95", 
-        "【消費税 10%】&nbsp;&nbsp;(c)×0.1", 
-        "【手数料 1.55%】&nbsp;&nbsp;(c)×0.0155", 
-        "【免税額】&nbsp;&nbsp;(d-e)<br />※免税カウンターで免税手続きをして返ってくる現金", 
-        "ショッピングクーポン使用<br />5%OFF価格税込(c)×1.1<br />【店で支払う金額】", 
-        "【最終価格】&nbsp;&nbsp;(g) - (f)", 
+        "価格（税込）",
+        "価格（税抜）",
+        "ショッピングクーポン使用\n5%OFF価格 (b)×0.95",
+        "【消費税 10%】 (c)×0.1",
+        "【手数料 1.55%】 (c)×0.0155",
+        "【免税額】 (d-e)\n※免税カウンターで免税手続きをして返ってくる現金",
+        "ショッピングクーポン使用\n5%OFF価格税込(c)×1.1\n【店で支払う金額】",
+        "【最終価格】 (g) - (f)",
         "得した金額 (a) - (h)"
       ],
+      refundDesc: "※免税カウンターで免税手続きをして返ってくる現金"
     },
     'zh-CN': {
       title: "免税/购物优惠券使用后的最终价格",
-      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用 5%OFF价格 (b)×0.95", "【消费税 10%】&nbsp;&nbsp;(c)×0.1", "【手续费 1.55%】&nbsp;&nbsp;(c)×0.0155", "【免税额】&nbsp;&nbsp;(d-e)<br />※在退税柜台办理免税手续后退回的现金 ", "购物优惠券使用5%OFF含税价格(c)×1.1<br />【店內应付金额】", "【最终价格】&nbsp;&nbsp;(g) - (f)", "【省下金额】　(a) - (h)"],
+      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用\n5%OFF价格 (b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "购物优惠券使用5%OFF含税价格(c)×1.1\n【店內应付金额】", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      refundDesc: "※在退税柜台办理免税手续后退回的现金"
     },
     'zh-TW': {
       title: "免稅/購物優惠券使用後的最終價格",
-      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用 5%OFF價格 (b)×0.95", "【消費稅 10%】&nbsp;&nbsp;(c)×0.1", "【手續稅 1.55%】&nbsp;&nbsp;(c)×0.0155", "【免稅額】&nbsp;&nbsp;(d-e)<br />※在退稅櫃檯辦理免稅手續後退回的現金 ", "購物優惠券使用5%OFF含稅價格(c)×1.1<br />【店內应付金额】", "【最終價格】&nbsp;&nbsp;(g) - (f)", "【省下金额】&nbsp;&nbsp;(a) - (h)"],
+      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用\n5%OFF價格 (b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "購物優惠券使用5%OFF含稅價格(c)×1.1\n【店內应付金额】", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      refundDesc: "※在退稅櫃檯辦理免稅手續後退回的現金"
     },
     en: {
       title: "Final Price After Tax Exemption & Shopping Coupon",
-      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "5% OFF Price with Coupon (b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】&nbsp;&nbsp;(d-e)<br />※The tax refund received after completing the tax-free procedure at the counter.", "5% OFF Price (Tax Incl)<br />【 Amount due at the store 】", "【Final Price】&nbsp;&nbsp;(g)-(f)", "【Amount Saved】&nbsp;&nbsp;(a)-(h)"],
+      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "5% OFF Price with Coupon\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)", "5% OFF Price (Tax Incl)\n【 Amount due at the store 】", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
+      refundDesc: "※The tax refund received after completing the tax-free procedure at the counter."
     }
   };
 
@@ -61,25 +65,6 @@ function App() {
   const RedCode = ({ code }: { code: string }) => <span style={{ color: 'red', width: '30px', textAlign: 'right', flexShrink: 0, alignSelf: 'center' }}>{code}</span>;
 
   const Row = ({ label, value, code, bold = false, highlight = false, isRefund = false, emphasize = false, finalPrice = false }: any) => {
-    const parts = typeof label === 'string' ? label.split('\n') : [label];
-    
-    const renderLabel = (part: string) => {
-        if (finalPrice) {
-            const bracketIndex = part.search(/[\(（]/);
-            if (bracketIndex > 0) {
-                const textPart = part.substring(0, bracketIndex);
-                const codePart = part.substring(bracketIndex);
-                return (
-                    <>
-                        <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'red' }}>{textPart}</span>
-                        <span style={{ fontWeight: 'normal', fontSize: '0.95rem', color: '#000' }}>{codePart}</span>
-                    </>
-                );
-            }
-        }
-        return part;
-    };
-
     return (
       <div style={{ paddingBottom: '10px' }}>
         <div style={{ 
@@ -88,19 +73,16 @@ function App() {
           alignItems: 'center', 
           padding: emphasize ? '10px' : '12px 0', 
           borderBottom: emphasize ? 'none' : '1px solid #eee',
-          border: emphasize ? '3px solid red' : 'none', // 赤い太枠
+          border: emphasize ? '3px solid red' : 'none',
           borderRadius: emphasize ? '8px' : '0px'
         }}>
-          <span style={{ flex: 1, paddingRight: '15px', textAlign: 'center' }}>
-            {parts.map((part: string, i: number) => (
-              <span key={i} style={{ 
-                display: 'block', 
-                fontSize: (emphasize && i === 1) ? '1.1rem' : '0.95rem', 
-                fontWeight: ((emphasize && i === 1) || bold) ? 'bold' : 'normal'
-              }}>
-                {finalPrice ? renderLabel(part) : part}
-              </span>
-            ))}
+          <span style={{ 
+            flex: 1, 
+            paddingRight: '15px', 
+            textAlign: 'center',
+            whiteSpace: 'pre-wrap' // ここが重要：改行とスペースを有効にする
+          }}>
+            <span style={{ fontWeight: bold ? 'bold' : 'normal' }}>{label}</span>
           </span>
           <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <span style={{ 
@@ -121,7 +103,6 @@ function App() {
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto', fontFamily: "'Noto Sans SC', 'Noto Sans JP', sans-serif" }}>
-      {/* 言語切り替えボタンエリア */}
       <div style={{ display: 'flex', gap: '0px', marginBottom: '20px', width: '100%' }}>
         {[
           { id: 'ja', label: '日本語' },
@@ -133,19 +114,10 @@ function App() {
             key={item.id} 
             onClick={() => setLang(item.id as Lang)}
             style={{ 
-              flex: '1 1 25%',
-              height: '40px',
-              cursor: 'pointer',
+              flex: '1 1 25%', height: '40px', cursor: 'pointer',
               backgroundColor: lang === item.id ? '#ddd' : '#f4f4f4',
-              border: '2px solid',
-              borderColor: lang === item.id ? '#333' : '#ccc',
-              boxSizing: 'border-box',
-              fontWeight: 'bold', 
-              whiteSpace: 'nowrap',
-              margin: '0',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+              border: '2px solid', borderColor: lang === item.id ? '#333' : '#ccc',
+              fontWeight: 'bold', whiteSpace: 'nowrap'
             }}
           >
             {item.label}
@@ -153,7 +125,7 @@ function App() {
         ))}
       </div>
 
-      <h2 style={{ fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px', whiteSpace: 'pre-line' }}>{current.title}</h2>
+      <h2 style={{ fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px', whiteSpace: 'pre-wrap' }}>{current.title}</h2>
 
       <div style={{ fontSize: '0.95rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '2px solid #333', alignItems: 'center' }}>
@@ -171,7 +143,7 @@ function App() {
         <Row label={current.items[4]} value={result.e} code="(e)" />
         <Row label={current.items[5]} value={result.f} code="(f)" highlight={true} isRefund={true} />
         <Row label={current.items[6]} value={result.g} code="(g)" emphasize={true} />
-        <Row label={current.items[7]} value={result.h} code="(h)" finalPrice={true} />
+        <Row label={current.items[7]} value={result.h} code="(h)" bold={true} />
         <Row label={current.items[8]} value={result.saved} code="" />
       </div>
     </div>
