@@ -3,6 +3,20 @@
 /* 全体のデフォルトフォント */
 body {
   font-family: 'Noto Sans SC', 'Noto Sans JP', sans-serif;
+  margin: 0;
+  padding: 0;
+  /* デフォルト（ライトモード）の配色 */
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s, color 0.3s; /* 切り替わりをスムーズに */
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #ffffff;
+  }
 }
 
 /* ボタンや見出しのデフォルト設定を強制的に上書き */

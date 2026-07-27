@@ -34,7 +34,7 @@ function App() {
       items: [
         "価格（税込）",
         "価格（税抜）",
-        "ショッピングクーポン使用\n5%OFF価格　(b)×0.95",
+        "ショッピングクーポン使用\n5%OFF価格 (b)×0.95",
         "【消費税 10%】 (c)×0.1",
         "【手数料 1.55%】 (c)×0.0155",
         "【免税額】 (d-e)",
@@ -46,25 +46,28 @@ function App() {
     },
     'zh-CN': {
       title: "免税/购物优惠券使用后的最终价格",
-      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用\n5%OFF价格　(b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "【店內应付金额】\n购物优惠券使用5%OFF含税价格(c)×1.1", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用\n5%OFF价格 (b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "【店內应付金额】\n购物优惠券使用5%OFF含税价格(c)×1.1", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
       refundDesc: "※在退税柜台办理免税手续后退回的现金"
     },
     'zh-TW': {
       title: "免稅/購物優惠券使用後的最終價格",
-      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用\n5%OFF價格　(b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "【店內应付金额】\n購物優惠券使用5%OFF含稅價格(c)×1.1", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用\n5%OFF價格 (b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "【店內应付金额】\n購物優惠券使用5%OFF含稅價格(c)×1.1", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
       refundDesc: "※在退稅櫃檯辦理免稅手續後退回的現金"
     },
     en: {
       title: "Final Price After Tax Exemption & Shopping Coupon",
-      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "5% OFF Price with Coupon\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】\n(d-e)", "【 Amount due at the store 】\n5% OFF Price (Tax Incl)", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
+      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "5% OFF Price with Coupon\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)", "【Amount due at the store】\n5% OFF Price (Tax Incl)", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
       refundDesc: "※The tax refund received after completing the tax-free procedure at the counter."
     }
   };
 
   const current = labels[lang];
-  const RedCode = ({ code }: { code: string }) => <span style={{ color: 'red', width: '30px', textAlign: 'right', flexShrink: 0, alignSelf: 'center' }}>{code}</span>;
+  // 文字色を 'inherit' にすることで、親要素（ブラウザの設定）に従うように修正
+  const RedCode = ({ code }: { code: string }) => <span style={{ color: '#ff7e7e', width: '30px', textAlign: 'right', flexShrink: 0, alignSelf: 'center' }}>{code}</span>;
 
   const Row = ({ label, value, code, bold = false, highlight = false, isRefund = false, emphasize = false, finalPrice = false }: any) => {
+    const lines = typeof label === 'string' ? label.split('\n') : [label];
+
     return (
       <div style={{ paddingBottom: '10px' }}>
         <div style={{ 
@@ -73,21 +76,27 @@ function App() {
           alignItems: 'center', 
           padding: emphasize ? '10px' : '12px 0', 
           borderBottom: emphasize ? 'none' : '1px solid #eee',
-          border: emphasize ? '3px solid red' : 'none',
+          border: emphasize ? '3px solid #ff7e7e' : 'none', // 赤枠を少し柔らかい色に
           borderRadius: emphasize ? '8px' : '0px'
         }}>
-          <span style={{ 
-            flex: 1, 
-            paddingRight: '15px', 
-            textAlign: 'center',
-            whiteSpace: 'pre-wrap' // ここが重要：改行とスペースを有効にする
-          }}>
-            <span style={{ fontWeight: bold ? 'bold' : 'normal' }}>{label}</span>
+          <span style={{ flex: 1, paddingRight: '15px', textAlign: 'center' }}>
+            {lines.map((line: string, index: number) => (
+              <span key={index} style={{ 
+                display: 'block',
+                fontSize: (emphasize || isRefund || index > 0) ? '0.8rem' : '0.95rem',
+                // ダークモードでも見えるよう明示的な黒(#000)をやめて inherit (継承) に変更
+                color: (emphasize || isRefund || index > 0) ? '#aaa' : 'inherit',
+                fontWeight: (index === 0 && !emphasize && bold) ? 'bold' : 'normal'
+              }}>
+                {line}
+              </span>
+            ))}
           </span>
           <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <span style={{ 
               fontWeight: (bold || emphasize || finalPrice) ? 'bold' : 'normal', 
-              color: finalPrice ? 'red' : (highlight ? '#e53e3e' : '#000'), 
+              // ダークモードで映える明るめの色に変更
+              color: finalPrice ? '#ff7e7e' : (highlight ? '#ff9999' : 'inherit'), 
               marginRight: '15px',
               fontSize: finalPrice ? '1.5rem' : (emphasize ? '1.5rem' : '0.95rem')
             }}>
@@ -96,7 +105,7 @@ function App() {
             <RedCode code={code} />
           </div>
         </div>
-        {isRefund && <div style={{ fontSize: '0.8rem', color: '#666', padding: '5px 0' }}>{current.refundDesc}</div>}
+        {isRefund && <div style={{ fontSize: '0.8rem', color: '#aaa', padding: '5px 0' }}>{current.refundDesc}</div>}
       </div>
     );
   };
@@ -115,9 +124,10 @@ function App() {
             onClick={() => setLang(item.id as Lang)}
             style={{ 
               flex: '1 1 25%', height: '40px', cursor: 'pointer',
-              backgroundColor: lang === item.id ? '#ddd' : '#f4f4f4',
-              border: '2px solid', borderColor: lang === item.id ? '#333' : '#ccc',
-              fontWeight: 'bold', whiteSpace: 'nowrap'
+              backgroundColor: lang === item.id ? '#555' : '#eee',
+              border: '2px solid', borderColor: lang === item.id ? '#fff' : '#ccc',
+              fontWeight: 'bold', whiteSpace: 'nowrap',
+              color: lang === item.id ? '#fff' : '#000'
             }}
           >
             {item.label}
@@ -128,11 +138,11 @@ function App() {
       <h2 style={{ fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px', whiteSpace: 'pre-wrap' }}>{current.title}</h2>
 
       <div style={{ fontSize: '0.95rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '2px solid #333', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '2px solid #888', alignItems: 'center' }}>
           <span style={{ fontWeight: 'bold', flex: 1, textAlign: 'center' }}>{current.items[0]}</span>
           <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <span style={{ marginRight: '5px' }}>¥</span>
-            <input type="text" value={inputValue} onChange={handleInputChange} style={{ width: '120px', padding: '5px', textAlign: 'right', fontSize: '1rem' }} />
+            <input type="text" value={inputValue} onChange={handleInputChange} style={{ width: '120px', padding: '5px', textAlign: 'right', fontSize: '1rem', backgroundColor: 'transparent', color: 'inherit', border: '1px solid #888', borderRadius: '4px' }} />
             <RedCode code="(a)" />
           </div>
         </div>
