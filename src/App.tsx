@@ -3,7 +3,6 @@ import './App.css';
 
 type Lang = 'ja' | 'zh-CN' | 'zh-TW' | 'en';
 
-// 共通の赤色定義
 const APP_RED = '#ff4d4d';
 
 function App() {
@@ -42,40 +41,38 @@ function App() {
         "【手数料 1.55%】 (c)×0.0155",
         "【免税額】 (d-e)",
         "【店で支払う金額】\nショッピングクーポン使用\n5%OFF価格税込 (c)×1.1",
-        "【最終価格】 (g) - (f)",
+        "【最終価格】\n(g) - (f)",
         "得した金額  (a) - (h)"
       ],
       refundDesc: "※免税カウンターで免税手続きをして返ってくる現金"
     },
     'zh-CN': {
       title: "免税/购物优惠券使用后的最终价格",
-      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用 5%OFF价格\n(b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "【店內应付金额】\n购物优惠券使用\n5%OFF含税价格 (c)×1.1", "【最终价格】 (g) - (f)", "【省下金额】  (a) - (h)"],
+      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用 5%OFF价格\n(b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "【店內应付金额】\n购物优惠券使用\n5%OFF含税价格 (c)×1.1", "【最终价格】\n(g) - (f)", "【省下金额】  (a) - (h)"],
       refundDesc: "※在退税柜台办理免税手续后退回的现金"
     },
     'zh-TW': {
       title: "免稅/購物優惠券使用後的最終價格",
-      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用 5%OFF價格\n(b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "【店內应付金额】\n購物優惠券使用\n5%OFF含稅價格 (c)×1.1", "【最終價格】 (g) - (f)", "【省下金额】  (a) - (h)"],
+      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用 5%OFF價格\n(b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "【店內应付金额】\n購物優惠券使用\n5%OFF含稅價格 (c)×1.1", "【最終價格】\n(g) - (f)", "【省下金额】  (a) - (h)"],
       refundDesc: "※在退稅櫃檯辦理免稅手續後退回的現金"
     },
     en: {
       title: "Final Price After Tax Exemption & Shopping Coupon",
-      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "Shopping Coupon 5% OFF Price\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)", "【Amount due at the store】\nShopping Coupon\n5% OFF Price (Tax Incl) (c)×1.1", "【Final Price】 (g)-(f)", "【Amount Saved】  (a)-(h)"],
+      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "Shopping Coupon 5% OFF Price\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)", "【Amount due at the store】\nShopping Coupon\n5% OFF Price (Tax Incl) (c)×1.1", "【Final Price】\n(g)-(f)", "【Amount Saved】  (a)-(h)"],
       refundDesc: "※The tax refund received after completing the tax-free procedure at the counter."
     }
   };
 
   const current = labels[lang];
-  
-  // 指定の赤色をラベルにも適用するためのヘルパー関数
+
   const getLabelColor = (text: string) => {
-    // 免税額を除外
-    const redTargets = ["【最終価格】", "【最终价格】", "【最終價格】", "【Final Price】"];
-    return redTargets.some(target => text.includes(target)) ? APP_RED : '#333';
+    // 【】で始まる行（タグ）は赤、それ以外は黒
+    return text.trim().startsWith("【") ? APP_RED : '#333';
   };
 
   const RedCode = ({ code }: { code: string }) => <span style={{ color: APP_RED, width: '30px', textAlign: 'right', flexShrink: 0, alignSelf: 'center' }}>{code}</span>;
 
-  const Row = ({ label, value, code, bold = false, highlight = false, isRefund = false, emphasize = false, finalPrice = false, isCouponRow = false }: any) => {
+  const Row = ({ label, value, code, bold = false, highlight = false, isRefund = false, emphasize = false, finalPrice = false }: any) => {
     const lines = typeof label === 'string' ? label.split('\n') : [label];
 
     return (
@@ -93,7 +90,7 @@ function App() {
             {lines.map((line: string, index: number) => (
               <span key={index} style={{ 
                 display: 'block',
-                fontSize: isCouponRow ? '0.95rem' : (index === 0 ? '0.95rem' : '0.8rem'),
+                fontSize: index === 0 ? '0.95rem' : '0.8rem',
                 color: getLabelColor(line),
                 fontWeight: (index === 0 && !emphasize && bold) ? 'bold' : 'normal'
               }}>
@@ -104,9 +101,9 @@ function App() {
           <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <span style={{ 
               fontWeight: (bold || emphasize || finalPrice) ? 'bold' : 'normal', 
-              color: finalPrice ? APP_RED : (highlight ? APP_RED : 'inherit'), 
+              color: highlight ? APP_RED : 'inherit', 
               marginRight: '15px',
-              fontSize: finalPrice ? '1.5rem' : (emphasize ? '1.5rem' : '0.95rem')
+              fontSize: (emphasize) ? '1.5rem' : '0.95rem'
             }}>
               {typeof value === 'string' ? value : `¥${value.toLocaleString()}`}
             </span>
@@ -156,10 +153,10 @@ function App() {
         </div>
 
         <Row label={current.items[1]} value={result.b} code="(b)" />
-        <Row label={current.items[2]} value={result.c} code="(c)" isCouponRow={true} />
+        <Row label={current.items[2]} value={result.c} code="(c)" />
         <Row label={current.items[3]} value={result.d} code="(d)" />
         <Row label={current.items[4]} value={result.e} code="(e)" />
-        <Row label={current.items[5]} value={result.f} code="(f)" highlight={false} isRefund={true} />
+        <Row label={current.items[5]} value={result.f} code="(f)" highlight={true} isRefund={true} />
         <Row label={current.items[6]} value={result.g} code="(g)" emphasize={true} />
         <Row label={current.items[7]} value={result.h} code="(h)" bold={true} />
         <Row label={current.items[8]} value={result.saved} code="" />
