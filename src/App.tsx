@@ -83,7 +83,7 @@ function App() {
 
   const currentItems = getItems(lang);
   const titles = { 
-    ja: "免税・ショッピングクーポン使用後の最終価格", 
+    ja: "免税・ショッピングクーポン\n使用後の最終価格", 
     'zh-CN': "免税/购物优惠券使用后的最终价格", 
     'zh-TW': "免稅/購物優惠券使用後的最終價格", 
     en: "Final Price After Tax Exemption & Shopping Coupon" 
@@ -131,7 +131,7 @@ function App() {
           ))}
         </div>
 
-        <h2 style={{ fontSize: '1.25rem', textAlign: 'center', margin: '0 0 20px 0' }}>{titles[lang]}</h2>
+        <h2 style={{ fontSize: '1.25rem', textAlign: 'center', margin: '0 0 20px 0', whiteSpace: 'pre-line' }}>{titles[lang]}</h2>
 
         <div style={{ border: '2px solid #ccc', padding: '15px', borderRadius: '10px', backgroundColor: '#fff' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '2px solid #888', alignItems: 'center' }}>
