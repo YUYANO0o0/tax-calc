@@ -3,6 +3,9 @@ import './App.css';
 
 type Lang = 'ja' | 'zh-CN' | 'zh-TW' | 'en';
 
+// 共通の赤色定義
+const APP_RED = '#ff4d4d';
+
 function App() {
   const [lang, setLang] = useState<Lang>('ja');
   const [inputValue, setInputValue] = useState<string>('1,100,000');
@@ -62,25 +65,17 @@ function App() {
   };
 
   const current = labels[lang];
-  const RedCode = ({ code }: { code: string }) => <span style={{ color: '#ff7e7e', width: '30px', textAlign: 'right', flexShrink: 0, alignSelf: 'center' }}>{code}</span>;
+  
+  // 指定の赤色をラベルにも適用するためのヘルパー関数
+  const getLabelColor = (text: string) => {
+    const redTargets = ["【最終価格】", "【最终价格】", "【最終價格】", "【Final Price】", "【免税額】", "【免税额】", "【免稅額】", "【Tax Refund Amount】"];
+    return redTargets.some(target => text.includes(target)) ? APP_RED : '#333';
+  };
 
-  const Row = ({ label, value, code, bold = false, highlight = false, isRefund = false, emphasize = false, finalPrice = false }: any) => {
+  const RedCode = ({ code }: { code: string }) => <span style={{ color: APP_RED, width: '30px', textAlign: 'right', flexShrink: 0, alignSelf: 'center' }}>{code}</span>;
+
+  const Row = ({ label, value, code, bold = false, highlight = false, isRefund = false, emphasize = false, finalPrice = false, isCouponRow = false }: any) => {
     const lines = typeof label === 'string' ? label.split('\n') : [label];
-
-    const renderLabel = (text: string) => {
-      const targets = ["【最終価格】", "【最终价格】", "【最終價格】", "【Final Price】"];
-      for (const target of targets) {
-        if (text.includes(target)) {
-          return (
-            <>
-              <span style={{ color: 'red' }}>{target}</span>
-              {text.replace(target, "")}
-            </>
-          );
-        }
-      }
-      return text;
-    };
 
     return (
       <div style={{ paddingBottom: '10px' }}>
@@ -90,25 +85,25 @@ function App() {
           alignItems: 'center', 
           padding: emphasize ? '10px' : '12px 0', 
           borderBottom: emphasize ? 'none' : '1px solid #eee',
-          border: emphasize ? '3px solid #ff7e7e' : 'none',
+          border: emphasize ? `3px solid ${APP_RED}` : 'none',
           borderRadius: emphasize ? '8px' : '0px'
         }}>
           <span style={{ flex: 1, paddingRight: '15px', textAlign: 'center' }}>
             {lines.map((line: string, index: number) => (
               <span key={index} style={{ 
                 display: 'block',
-                fontSize: index === 0 ? '0.95rem' : '0.8rem',
-                color: index === 0 ? 'inherit' : '#333', // ここを #aaa から #333 に変更して黒っぽくしました
+                fontSize: isCouponRow ? '0.95rem' : (index === 0 ? '0.95rem' : '0.8rem'),
+                color: getLabelColor(line),
                 fontWeight: (index === 0 && !emphasize && bold) ? 'bold' : 'normal'
               }}>
-                {renderLabel(line)}
+                {line}
               </span>
             ))}
           </span>
           <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <span style={{ 
               fontWeight: (bold || emphasize || finalPrice) ? 'bold' : 'normal', 
-              color: finalPrice ? '#ff7e7e' : (highlight ? '#ff9999' : 'inherit'), 
+              color: finalPrice ? APP_RED : (highlight ? APP_RED : 'inherit'), 
               marginRight: '15px',
               fontSize: finalPrice ? '1.5rem' : (emphasize ? '1.5rem' : '0.95rem')
             }}>
@@ -160,7 +155,7 @@ function App() {
         </div>
 
         <Row label={current.items[1]} value={result.b} code="(b)" />
-        <Row label={current.items[2]} value={result.c} code="(c)" />
+        <Row label={current.items[2]} value={result.c} code="(c)" isCouponRow={true} />
         <Row label={current.items[3]} value={result.d} code="(d)" />
         <Row label={current.items[4]} value={result.e} code="(e)" />
         <Row label={current.items[5]} value={result.f} code="(f)" highlight={true} isRefund={true} />
