@@ -36,111 +36,95 @@ function App() {
       ja: [
         [{ text: "価格（税込）" }],
         [{ text: "価格（税抜）" }],
-        [{ text: "ショッピングクーポン使用 5%OFF価格\n(b)×0.95" }],
-        [{ text: "【消費税 10%】\n(c)×0.1" }],
-        [{ text: "【手数料 1.55%】\n(c)×0.0155" }],
+        [{ text: "クーポン5%OFF\n(b)×0.95" }],
+        [{ text: "【消費税10%】\n(c)×0.1" }],
+        [{ text: "【手数料1.55%】\n(c)×0.0155" }],
         [{ text: "【免税額】\n(d-e)" }],
-        [{ text: "【店で支払う金額】\nショッピングクーポン使用 5%OFF価格税込\n(c)×1.1" }],
+        [{ text: "【支払金額】\n5%OFF価格税込\n(c)×1.1" }],
         [{ text: "【最終価格】", color: APP_RED }, { text: "\n(g) - (f)" }],
         [{ text: "得した金額\n(a) - (h)" }]
       ],
       'zh-CN': [
         [{ text: "价格（含税）" }],
         [{ text: "价格（不含税）" }],
-        [{ text: "购物优惠券使用 5%OFF价格\n(b)×0.95" }],
-        [{ text: "【消费税 10%】\n(c)×0.1" }],
-        [{ text: "【手续费 1.55%】\n(c)×0.0155" }],
+        [{ text: "优惠券5%OFF\n(b)×0.95" }],
+        [{ text: "【消费税10%】\n(c)×0.1" }],
+        [{ text: "【手续费1.55%】\n(c)×0.0155" }],
         [{ text: "【免税额】\n(d-e)" }],
-        [{ text: "【店內应付金额】\n购物优惠券使用 5%OFF含税价格\n(c)×1.1" }],
+        [{ text: "【支付金额】\n5%OFF含税价\n(c)×1.1" }],
         [{ text: "【最终价格】", color: APP_RED }, { text: "\n(g) - (f)" }],
         [{ text: "【省下金额】\n(a) - (h)" }]
       ],
       'zh-TW': [
         [{ text: "價格（含稅）" }],
         [{ text: "價格（不含稅）" }],
-        [{ text: "購物優惠券使用 5%OFF價格\n(b)×0.95" }],
-        [{ text: "【消費稅 10%】\n(c)×0.1" }],
-        [{ text: "【手續稅 1.55%】\n(c)×0.0155" }],
+        [{ text: "優惠券5%OFF\n(b)×0.95" }],
+        [{ text: "【消費稅10%】\n(c)×0.1" }],
+        [{ text: "【手續稅1.55%】\n(c)×0.0155" }],
         [{ text: "【免稅額】\n(d-e)" }],
-        [{ text: "【店內应付金额】\n購物優惠券使用 5%OFF含稅價格\n(c)×1.1" }],
+        [{ text: "【支付金額】\n5%OFF含稅價\n(c)×1.1" }],
         [{ text: "【最終價格】", color: APP_RED }, { text: "\n(g) - (f)" }],
-        [{ text: "【省下金额】\n(a) - (h)" }]
+        [{ text: "【省下金額】\n(a) - (h)" }]
       ],
       en: [
         [{ text: "Price (Tax Incl.)" }],
         [{ text: "Price (Tax Excl.)" }],
-        [{ text: "Shopping Coupon 5% OFF Price\n(b)×0.95" }],
-        [{ text: "【Consumption Tax 10%】\n(c)×0.1" }],
-        [{ text: "【Service Fee 1.55%】\n(c)×0.0155" }],
-        [{ text: "【Tax Refund Amount】\n(d-e)" }],
-        [{ text: "【Amount due at the store】\nShopping Coupon 5% OFF Price (Tax Incl)\n(c)×1.1" }],
+        [{ text: "Coupon 5% OFF\n(b)×0.95" }],
+        [{ text: "【Tax 10%】\n(c)×0.1" }],
+        [{ text: "【Fee 1.55%】\n(c)×0.0155" }],
+        [{ text: "【Refund】\n(d-e)" }],
+        [{ text: "【Payment】\nTax Incl. 5% OFF\n(c)×1.1" }],
         [{ text: "【Final Price】", color: APP_RED }, { text: "\n(g)-(f)" }],
-        [{ text: "【Amount Saved】\n(a)-(h)" }]
+        [{ text: "【Saved】\n(a)-(h)" }]
       ]
     };
     return base[lang];
   };
 
   const currentItems = getItems(lang);
-  const titles = { ja: "免税・ショッピングクーポン\n使用後の最終価格", 'zh-CN': "免税/购物优惠券使用后的最终价格", 'zh-TW': "免稅/購物優惠券使用後的最終價格", en: "Final Price After Tax Exemption & Shopping Coupon" };
-  const refundDesc = { ja: "※免税カウンターで免税手続きをして返ってくる現金", 'zh-CN': "※在退税柜台办理免税手续后退回的现金", 'zh-TW': "※在退稅櫃檯辦理免稅手續後退回的現金", en: "※The tax refund received after completing the tax-free procedure at the counter." };
+  const titles = { ja: "免税・クーポン最終価格", 'zh-CN': "免税/优惠券最终价格", 'zh-TW': "免稅/優惠券最終價格", en: "Final Price" };
+  const refundDesc = { ja: "※免税カウンターで戻る現金", 'zh-CN': "※退税柜台退还现金", 'zh-TW': "※退稅櫃檯退還現金", en: "※Refund at counter" };
 
-  const RedCode = ({ code }: { code: string }) => <span style={{ color: APP_RED, width: '30px', textAlign: 'right', flexShrink: 0, alignSelf: 'center' }}>{code}</span>;
+  const RedCode = ({ code }: { code: string }) => <span style={{ color: APP_RED, width: '25px', textAlign: 'right', flexShrink: 0 }}>{code}</span>;
 
   const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false }: any) => {
     return (
-      <div style={{ paddingBottom: '10px' }}>
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          padding: emphasize ? '10px' : '12px 0', 
-          borderBottom: emphasize ? 'none' : '1px solid #eee',
-          border: emphasize ? `3px solid ${APP_RED}` : 'none',
-          borderRadius: emphasize ? '8px' : '0px'
-        }}>
-          <span style={{ flex: 1, paddingRight: '15px', textAlign: 'center', lineHeight: 1.4 }}>
+      <div style={{ padding: '3px 0', borderBottom: emphasize ? 'none' : '1px solid #eee' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: emphasize ? '4px 0' : '2px 0' }}>
+          <span style={{ flex: 1, fontSize: '0.85rem', lineHeight: 1.1 }}>
             {labelParts.map((part: LabelPart, index: number) => (
-              <span key={index} style={{ color: part.color || '#333', fontSize: '0.95rem' }}>
-                {part.text.split('\n').map((line, i) => (
-                  <span key={i} style={{ display: 'block' }}>{line}</span>
-                ))}
+              <span key={index} style={{ color: part.color || '#333' }}>
+                {part.text.split('\n').map((line, i) => <span key={i} style={{ display: 'block' }}>{line}</span>)}
               </span>
             ))}
           </span>
           <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-            <span style={{ 
-              fontWeight: (emphasize || isFinal) ? 'bold' : 'normal', 
-              color: isFinal ? '#333' : (emphasize ? APP_RED : 'inherit'), 
-              marginRight: '15px',
-              fontSize: (emphasize) ? '1.5rem' : '0.95rem'
-            }}>
+            <span style={{ fontWeight: (emphasize || isFinal) ? 'bold' : 'normal', color: isFinal ? '#333' : (emphasize ? APP_RED : 'inherit'), marginRight: '10px', fontSize: emphasize ? '1.2rem' : '0.9rem' }}>
               {typeof value === 'string' ? value : `¥${value.toLocaleString()}`}
             </span>
             <RedCode code={code} />
           </div>
         </div>
-        {isRefund && <div style={{ fontSize: '0.8rem', color: '#333', padding: '5px 0' }}>{refundDesc[lang]}</div>}
+        {isRefund && <div style={{ fontSize: '0.7rem', color: '#666' }}>{refundDesc[lang]}</div>}
       </div>
     );
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto', fontFamily: "'Noto Sans SC', 'Noto Sans JP', sans-serif" }}>
-      <div style={{ display: 'flex', gap: '0px', marginBottom: '20px', width: '100%' }}>
-        {[ { id: 'ja', label: '日本語' }, { id: 'zh-CN', label: '简体中文' }, { id: 'zh-TW', label: '繁體中文' }, { id: 'en', label: 'English' } ].map(item => (
-          <button key={item.id} onClick={() => setLang(item.id as Lang)} style={{ flex: '1 1 25%', height: '40px', cursor: 'pointer', backgroundColor: lang === item.id ? '#555' : '#eee', border: '2px solid', borderColor: lang === item.id ? '#fff' : '#ccc', fontWeight: 'bold', color: lang === item.id ? '#fff' : '#000' }}>{item.label}</button>
+    <div style={{ padding: '10px', maxWidth: '400px', margin: '0 auto', fontSize: '0.9rem' }}>
+      <div style={{ display: 'flex', gap: '2px', marginBottom: '10px' }}>
+        {[ { id: 'ja', label: '日' }, { id: 'zh-CN', label: '简' }, { id: 'zh-TW', label: '繁' }, { id: 'en', label: 'En' } ].map(item => (
+          <button key={item.id} onClick={() => setLang(item.id as Lang)} style={{ flex: 1, padding: '5px 0', cursor: 'pointer', backgroundColor: lang === item.id ? '#555' : '#eee', border: 'none' }}>{item.label}</button>
         ))}
       </div>
 
-      <h2 style={{ fontSize: '1.2rem', textAlign: 'center', marginBottom: '20px', whiteSpace: 'pre-wrap' }}>{titles[lang]}</h2>
+      <h2 style={{ fontSize: '1rem', textAlign: 'center', margin: '0 0 10px 0' }}>{titles[lang]}</h2>
 
-      <div style={{ fontSize: '0.95rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '2px solid #888', alignItems: 'center' }}>
-          <span style={{ fontWeight: 'bold', flex: 1, textAlign: 'center' }}>{currentItems[0][0].text}</span>
-          <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-            <span style={{ marginRight: '5px' }}>¥</span>
-            <input type="text" value={inputValue} onChange={handleInputChange} style={{ width: '120px', padding: '5px', textAlign: 'right', fontSize: '1rem', backgroundColor: 'transparent', border: '1px solid #888', borderRadius: '4px' }} />
+      <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '5px', borderBottom: '2px solid #888', alignItems: 'center' }}>
+          <span style={{ fontWeight: 'bold' }}>{currentItems[0][0].text}</span>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input type="text" value={inputValue} onChange={handleInputChange} style={{ width: '90px', textAlign: 'right', fontSize: '0.9rem' }} />
             <RedCode code="(a)" />
           </div>
         </div>
@@ -150,7 +134,9 @@ function App() {
         <Row labelParts={currentItems[3]} value={result.d} code="(d)" />
         <Row labelParts={currentItems[4]} value={result.e} code="(e)" />
         <Row labelParts={currentItems[5]} value={result.f} code="(f)" isRefund={true} />
-        <Row labelParts={currentItems[6]} value={result.g} code="(g)" emphasize={true} />
+        <div style={{ border: `2px solid ${APP_RED}`, padding: '5px', borderRadius: '5px', margin: '5px 0' }}>
+          <Row labelParts={currentItems[6]} value={result.g} code="(g)" emphasize={true} />
+        </div>
         <Row labelParts={currentItems[7]} value={result.h} code="(h)" isFinal={true} />
         <Row labelParts={currentItems[8]} value={result.saved} code="" />
       </div>
