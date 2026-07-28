@@ -34,7 +34,7 @@ function App() {
       items: [
         "価格（税込）",
         "価格（税抜）",
-        "ショッピングクーポン使用\n5%OFF価格 (b)×0.95",
+        "ショッピングクーポン使用 5%OFF価格\n(b)×0.95",
         "【消費税 10%】 (c)×0.1",
         "【手数料 1.55%】 (c)×0.0155",
         "【免税額】 (d-e)",
@@ -46,17 +46,17 @@ function App() {
     },
     'zh-CN': {
       title: "免税/购物优惠券使用后的最终价格",
-      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用\n5%OFF价格 (b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "【店內应付金额】\n购物优惠券使用5%OFF含税价格(c)×1.1", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用 5%OFF价格\n(b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "【店內应付金额】\n购物优惠券使用\n5%OFF含税价格(c)×1.1", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
       refundDesc: "※在退税柜台办理免税手续后退回的现金"
     },
     'zh-TW': {
       title: "免稅/購物優惠券使用後的最終價格",
-      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用\n5%OFF價格 (b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "【店內应付金额】\n購物優惠券使用5%OFF含稅價格(c)×1.1", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用 5%OFF價格\n(b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "【店內应付金额】\n購物優惠券使用\n5%OFF含稅價格(c)×1.1", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
       refundDesc: "※在退稅櫃檯辦理免稅手續後退回的現金"
     },
     en: {
       title: "Final Price After Tax Exemption & Shopping Coupon",
-      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "5% OFF Price with Coupon\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)", "【Amount due at the store】\n5% OFF Price (Tax Incl)", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
+      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "Shopping Coupon 5% OFF Price\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)", "【Amount due at the store】\nShopping Coupon\n5% OFF Price (Tax Incl)", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
       refundDesc: "※The tax refund received after completing the tax-free procedure at the counter."
     }
   };
@@ -67,7 +67,6 @@ function App() {
   const Row = ({ label, value, code, bold = false, highlight = false, isRefund = false, emphasize = false, finalPrice = false }: any) => {
     const lines = typeof label === 'string' ? label.split('\n') : [label];
 
-    // 各言語の「最終価格」ラベルを判定して赤くする
     const renderLabel = (text: string) => {
       const targets = ["【最終価格】", "【最终价格】", "【最終價格】", "【Final Price】"];
       for (const target of targets) {
@@ -99,7 +98,7 @@ function App() {
               <span key={index} style={{ 
                 display: 'block',
                 fontSize: index === 0 ? '0.95rem' : '0.8rem',
-                color: index === 0 ? 'inherit' : '#aaa',
+                color: index === 0 ? 'inherit' : '#333', // ここを #aaa から #333 に変更して黒っぽくしました
                 fontWeight: (index === 0 && !emphasize && bold) ? 'bold' : 'normal'
               }}>
                 {renderLabel(line)}
@@ -118,7 +117,7 @@ function App() {
             <RedCode code={code} />
           </div>
         </div>
-        {isRefund && <div style={{ fontSize: '0.8rem', color: '#aaa', padding: '5px 0' }}>{current.refundDesc}</div>}
+        {isRefund && <div style={{ fontSize: '0.8rem', color: '#333', padding: '5px 0' }}>{current.refundDesc}</div>}
       </div>
     );
   };
