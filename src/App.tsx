@@ -41,25 +41,25 @@ function App() {
         "【消費税 10%】 (c)×0.1",
         "【手数料 1.55%】 (c)×0.0155",
         "【免税額】 (d-e)",
-        "【店で支払う金額】\nショッピングクーポン使用\n5%OFF価格税込(c)×1.1",
+        "【店で支払う金額】\nショッピングクーポン使用\n5%OFF価格税込 (c)×1.1",
         "【最終価格】 (g) - (f)",
-        "得した金額 (a) - (h)"
+        "得した金額  (a) - (h)"
       ],
       refundDesc: "※免税カウンターで免税手続きをして返ってくる現金"
     },
     'zh-CN': {
       title: "免税/购物优惠券使用后的最终价格",
-      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用 5%OFF价格\n(b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "【店內应付金额】\n购物优惠券使用\n5%OFF含税价格(c)×1.1", "【最终价格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["价格（含税）", "价格（不含税）", "购物优惠券使用 5%OFF价格\n(b)×0.95", "【消费税 10%】 (c)×0.1", "【手续费 1.55%】 (c)×0.0155", "【免税额】 (d-e)", "【店內应付金额】\n购物优惠券使用\n5%OFF含税价格 (c)×1.1", "【最终价格】 (g) - (f)", "【省下金额】  (a) - (h)"],
       refundDesc: "※在退税柜台办理免税手续后退回的现金"
     },
     'zh-TW': {
       title: "免稅/購物優惠券使用後的最終價格",
-      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用 5%OFF價格\n(b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "【店內应付金额】\n購物優惠券使用\n5%OFF含稅價格(c)×1.1", "【最終價格】 (g) - (f)", "【省下金额】 (a) - (h)"],
+      items: ["價格（含稅）", "價格（不含稅）", "購物優惠券使用 5%OFF價格\n(b)×0.95", "【消費稅 10%】 (c)×0.1", "【手續稅 1.55%】 (c)×0.0155", "【免稅額】 (d-e)", "【店內应付金额】\n購物優惠券使用\n5%OFF含稅價格 (c)×1.1", "【最終價格】 (g) - (f)", "【省下金额】  (a) - (h)"],
       refundDesc: "※在退稅櫃檯辦理免稅手續後退回的現金"
     },
     en: {
       title: "Final Price After Tax Exemption & Shopping Coupon",
-      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "Shopping Coupon 5% OFF Price\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)", "【Amount due at the store】\nShopping Coupon\n5% OFF Price (Tax Incl)", "【Final Price】 (g)-(f)", "【Amount Saved】 (a)-(h)"],
+      items: ["Price (Tax Incl.)", "Price (Tax Excl.)", "Shopping Coupon 5% OFF Price\n(b)×0.95", "【Consumption Tax 10%】 (c)×0.1", "【Service Fee 1.55%】 (c)×0.0155", "【Tax Refund Amount】 (d-e)", "【Amount due at the store】\nShopping Coupon\n5% OFF Price (Tax Incl) (c)×1.1", "【Final Price】 (g)-(f)", "【Amount Saved】  (a)-(h)"],
       refundDesc: "※The tax refund received after completing the tax-free procedure at the counter."
     }
   };
@@ -68,7 +68,8 @@ function App() {
   
   // 指定の赤色をラベルにも適用するためのヘルパー関数
   const getLabelColor = (text: string) => {
-    const redTargets = ["【最終価格】", "【最终价格】", "【最終價格】", "【Final Price】", "【免税額】", "【免税额】", "【免稅額】", "【Tax Refund Amount】"];
+    // 免税額を除外
+    const redTargets = ["【最終価格】", "【最终价格】", "【最終價格】", "【Final Price】"];
     return redTargets.some(target => text.includes(target)) ? APP_RED : '#333';
   };
 
@@ -158,7 +159,7 @@ function App() {
         <Row label={current.items[2]} value={result.c} code="(c)" isCouponRow={true} />
         <Row label={current.items[3]} value={result.d} code="(d)" />
         <Row label={current.items[4]} value={result.e} code="(e)" />
-        <Row label={current.items[5]} value={result.f} code="(f)" highlight={true} isRefund={true} />
+        <Row label={current.items[5]} value={result.f} code="(f)" highlight={false} isRefund={true} />
         <Row label={current.items[6]} value={result.g} code="(g)" emphasize={true} />
         <Row label={current.items[7]} value={result.h} code="(h)" bold={true} />
         <Row label={current.items[8]} value={result.saved} code="" />
