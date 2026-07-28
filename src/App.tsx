@@ -82,7 +82,12 @@ function App() {
   };
 
   const currentItems = getItems(lang);
-  const titles = { ja: "免税・クーポン最終価格", 'zh-CN': "免税/优惠券最终价格", 'zh-TW': "免稅/優惠券最終價格", en: "Final Price" };
+  const titles = { 
+    ja: "免税・ショッピングクーポン使用後の最終価格", 
+    'zh-CN': "免税/购物优惠券使用后的最终价格", 
+    'zh-TW': "免稅/購物優惠券使用後的最終價格", 
+    en: "Final Price After Tax Exemption & Shopping Coupon" 
+  };
   const refundDesc = { ja: "※免税カウンターで戻る現金", 'zh-CN': "※退税柜台退还现金", 'zh-TW': "※退稅櫃檯退還現金", en: "※Refund at counter" };
 
   const RedCode = ({ code }: { code: string }) => <span style={{ color: APP_RED, width: '30px', textAlign: 'right', flexShrink: 0, fontWeight: 'bold' }}>{code}</span>;
