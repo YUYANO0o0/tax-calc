@@ -4,7 +4,6 @@ import './App.css';
 type Lang = 'ja' | 'zh-CN' | 'zh-TW' | 'en';
 const APP_RED = '#ff4d4d';
 
-// ラベルのパーツ定義
 type LabelPart = { text: string; color?: string };
 
 function App() {
@@ -32,50 +31,49 @@ function App() {
     else if (/^\d*$/.test(rawValue)) setInputValue(rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
   };
 
-  // 各行のラベル設定
   const getItems = (lang: Lang): LabelPart[][] => {
     const base = {
       ja: [
         [{ text: "価格（税込）" }],
         [{ text: "価格（税抜）" }],
-        [{ text: "ショッピングクーポン使用 5%OFF価格 (b)×0.95" }],
-        [{ text: "【消費税 10%】", color: APP_RED }, { text: " (c)×0.1" }],
-        [{ text: "【手数料 1.55%】", color: APP_RED }, { text: " (c)×0.0155" }],
-        [{ text: "【免税額】", color: APP_RED }, { text: " (d-e)" }],
-        [{ text: "【店で支払う金額】\nショッピングクーポン使用 5%OFF価格税込 (c)×1.1", color: APP_RED }],
+        [{ text: "ショッピングクーポン使用 5%OFF価格\n(b)×0.95" }],
+        [{ text: "【消費税 10%】\n(c)×0.1" }],
+        [{ text: "【手数料 1.55%】\n(c)×0.0155" }],
+        [{ text: "【免税額】\n(d-e)" }],
+        [{ text: "【店で支払う金額】\nショッピングクーポン使用 5%OFF価格税込\n(c)×1.1" }],
         [{ text: "【最終価格】", color: APP_RED }, { text: " (g) - (f)" }],
         [{ text: "得した金額  (a) - (h)" }]
       ],
       'zh-CN': [
         [{ text: "价格（含税）" }],
         [{ text: "价格（不含税）" }],
-        [{ text: "购物优惠券使用 5%OFF价格 (b)×0.95" }],
-        [{ text: "【消费税 10%】", color: APP_RED }, { text: " (c)×0.1" }],
-        [{ text: "【手续费 1.55%】", color: APP_RED }, { text: " (c)×0.0155" }],
-        [{ text: "【免税额】", color: APP_RED }, { text: " (d-e)" }],
-        [{ text: "【店內应付金额】\n购物优惠券使用 5%OFF含税价格 (c)×1.1", color: APP_RED }],
+        [{ text: "购物优惠券使用 5%OFF价格\n(b)×0.95" }],
+        [{ text: "【消费税 10%】\n(c)×0.1" }],
+        [{ text: "【手续费 1.55%】\n(c)×0.0155" }],
+        [{ text: "【免税额】\n(d-e)" }],
+        [{ text: "【店內应付金额】\n购物优惠券使用 5%OFF含税价格\n(c)×1.1" }],
         [{ text: "【最终价格】", color: APP_RED }, { text: " (g) - (f)" }],
         [{ text: "【省下金额】  (a) - (h)" }]
       ],
       'zh-TW': [
         [{ text: "價格（含稅）" }],
-        [{ text: "價格（不含稅）" }],
-        [{ text: "購物優惠券使用 5%OFF價格 (b)×0.95" }],
-        [{ text: "【消費稅 10%】", color: APP_RED }, { text: " (c)×0.1" }],
-        [{ text: "【手續稅 1.55%】", color: APP_RED }, { text: " (c)×0.0155" }],
-        [{ text: "【免稅額】", color: APP_RED }, { text: " (d-e)" }],
-        [{ text: "【店內应付金额】\n購物優惠券使用 5%OFF含稅價格 (c)×1.1", color: APP_RED }],
+        [{ text: "價格（不防稅）" }],
+        [{ text: "購物優惠券使用 5%OFF價格\n(b)×0.95" }],
+        [{ text: "【消費稅 10%】\n(c)×0.1" }],
+        [{ text: "【手續稅 1.55%】\n(c)×0.0155" }],
+        [{ text: "【免稅額】\n(d-e)" }],
+        [{ text: "【店內应付金额】\n購物優惠券使用 5%OFF含稅價格\n(c)×1.1" }],
         [{ text: "【最終價格】", color: APP_RED }, { text: " (g) - (f)" }],
         [{ text: "【省下金额】  (a) - (h)" }]
       ],
       en: [
         [{ text: "Price (Tax Incl.)" }],
         [{ text: "Price (Tax Excl.)" }],
-        [{ text: "Shopping Coupon 5% OFF Price (b)×0.95" }],
-        [{ text: "【Consumption Tax 10%】", color: APP_RED }, { text: " (c)×0.1" }],
-        [{ text: "【Service Fee 1.55%】", color: APP_RED }, { text: " (c)×0.0155" }],
-        [{ text: "【Tax Refund Amount】", color: APP_RED }, { text: " (d-e)" }],
-        [{ text: "【Amount due at the store】\nShopping Coupon 5% OFF Price (Tax Incl) (c)×1.1", color: APP_RED }],
+        [{ text: "Shopping Coupon 5% OFF Price\n(b)×0.95" }],
+        [{ text: "【Consumption Tax 10%】\n(c)×0.1" }],
+        [{ text: "【Service Fee 1.55%】\n(c)×0.0155" }],
+        [{ text: "【Tax Refund Amount】\n(d-e)" }],
+        [{ text: "【Amount due at the store】\nShopping Coupon 5% OFF Price (Tax Incl)\n(c)×1.1" }],
         [{ text: "【Final Price】", color: APP_RED }, { text: " (g)-(f)" }],
         [{ text: "【Amount Saved】  (a)-(h)" }]
       ]
