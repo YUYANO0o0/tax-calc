@@ -41,8 +41,8 @@ function App() {
         [{ text: "【手数料 1.55%】\n(c)×0.0155" }],
         [{ text: "【免税額】\n(d-e)" }],
         [{ text: "【店で支払う金額】\nショッピングクーポン使用 5%OFF価格税込\n(c)×1.1" }],
-        [{ text: "【最終価格】", color: APP_RED }, { text: " (g) - (f)" }],
-        [{ text: "得した金額  (a) - (h)" }]
+        [{ text: "【最終価格】", color: APP_RED }, { text: "\n(g) - (f)" }],
+        [{ text: "得した金額\n(a) - (h)" }]
       ],
       'zh-CN': [
         [{ text: "价格（含税）" }],
@@ -52,19 +52,19 @@ function App() {
         [{ text: "【手续费 1.55%】\n(c)×0.0155" }],
         [{ text: "【免税额】\n(d-e)" }],
         [{ text: "【店內应付金额】\n购物优惠券使用 5%OFF含税价格\n(c)×1.1" }],
-        [{ text: "【最终价格】", color: APP_RED }, { text: " (g) - (f)" }],
-        [{ text: "【省下金额】  (a) - (h)" }]
+        [{ text: "【最终价格】", color: APP_RED }, { text: "\n(g) - (f)" }],
+        [{ text: "【省下金额】\n(a) - (h)" }]
       ],
       'zh-TW': [
         [{ text: "價格（含稅）" }],
-        [{ text: "價格（不防稅）" }],
+        [{ text: "價格（不含稅）" }],
         [{ text: "購物優惠券使用 5%OFF價格\n(b)×0.95" }],
         [{ text: "【消費稅 10%】\n(c)×0.1" }],
         [{ text: "【手續稅 1.55%】\n(c)×0.0155" }],
         [{ text: "【免稅額】\n(d-e)" }],
         [{ text: "【店內应付金额】\n購物優惠券使用 5%OFF含稅價格\n(c)×1.1" }],
-        [{ text: "【最終價格】", color: APP_RED }, { text: " (g) - (f)" }],
-        [{ text: "【省下金额】  (a) - (h)" }]
+        [{ text: "【最終價格】", color: APP_RED }, { text: "\n(g) - (f)" }],
+        [{ text: "【省下金额】\n(a) - (h)" }]
       ],
       en: [
         [{ text: "Price (Tax Incl.)" }],
@@ -74,8 +74,8 @@ function App() {
         [{ text: "【Service Fee 1.55%】\n(c)×0.0155" }],
         [{ text: "【Tax Refund Amount】\n(d-e)" }],
         [{ text: "【Amount due at the store】\nShopping Coupon 5% OFF Price (Tax Incl)\n(c)×1.1" }],
-        [{ text: "【Final Price】", color: APP_RED }, { text: " (g)-(f)" }],
-        [{ text: "【Amount Saved】  (a)-(h)" }]
+        [{ text: "【Final Price】", color: APP_RED }, { text: "\n(g)-(f)" }],
+        [{ text: "【Amount Saved】\n(a)-(h)" }]
       ]
     };
     return base[lang];
