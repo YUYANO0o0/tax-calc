@@ -58,7 +58,8 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
         ))}
       </span>
       <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-        <span style={{ fontWeight: 'bold', color: isFinal ? '#333' : (emphasize ? APP_RED : '#333'), marginRight: '10px', fontSize: emphasize ? '1.4rem' : '1.1rem' }}>
+        {/* 【支払金額】(g)の行だけ文字サイズを大きく(1.8rem) */}
+        <span style={{ fontWeight: 'bold', color: isFinal ? '#333' : (emphasize ? APP_RED : '#333'), marginRight: '10px', fontSize: emphasize ? '1.8rem' : '1.1rem' }}>
           {typeof value === 'string' ? value : `¥${value.toLocaleString()}`}
         </span>
         <RedCode code={code} />
@@ -108,7 +109,6 @@ function App() {
         <h2 style={{ fontSize: '1.25rem', textAlign: 'center', margin: '0 0 20px 0', whiteSpace: 'pre-line' }}>{titles[lang]}</h2>
 
         <div style={{ border: '2px solid #ccc', padding: '15px', borderRadius: '10px', backgroundColor: '#fff' }}>
-          {/* ヘッダー行のレイアウト修正 */}
           <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '2px solid #888', alignItems: 'center' }}>
             <span style={{ flex: 1, fontWeight: 'bold', fontSize: '1.1rem' }}>{currentItems[0][0].text}</span>
             <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
