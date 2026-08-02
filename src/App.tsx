@@ -1,14 +1,10 @@
 import { useState, useMemo } from 'react';
 import './App.css';
 
-// 定数
 const APP_RED = '#ff4d4d';
 type Lang = 'ja' | 'zh-CN' | 'zh-TW' | 'en';
-
-// ラベル部分の型定義
 type LabelPart = { text: string; color?: string };
 
-// 外部に定義して再レンダリング時の無駄な生成を防ぐ
 const getBaseData = (lang: Lang) => {
   const data: Record<Lang, LabelPart[][]> = {
     ja: [
@@ -47,7 +43,6 @@ const getBaseData = (lang: Lang) => {
   return data[lang];
 };
 
-// 補助コンポーネントを外に出す
 const RedCode = ({ code }: { code: string }) => (
   <span style={{ color: APP_RED, width: '30px', textAlign: 'right', flexShrink: 0, fontWeight: 'bold' }}>{code}</span>
 );
@@ -92,14 +87,9 @@ function App() {
     return { a, b, c, d, e, f, g, h, saved };
   }, [taxIncludedPrice]);
 
-  // iOS対策：数字以外を完全に排除し、再フォーマットする
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/[^0-9]/g, '');
-    if (rawValue === '') {
-      setInputValue('');
-    } else {
-      setInputValue(rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-    }
+    setInputValue(rawValue === '' ? '' : rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
   };
 
   const currentItems = useMemo(() => getBaseData(lang), [lang]);
@@ -118,10 +108,10 @@ function App() {
         <h2 style={{ fontSize: '1.25rem', textAlign: 'center', margin: '0 0 20px 0', whiteSpace: 'pre-line' }}>{titles[lang]}</h2>
 
         <div style={{ border: '2px solid #ccc', padding: '15px', borderRadius: '10px', backgroundColor: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '2px solid #888', alignItems: 'center' }}>
-            <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{currentItems[0][0].text}</span>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {/* iOS対策の属性を追加 */}
+          {/* ヘッダー行のレイアウト修正 */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '2px solid #888', alignItems: 'center' }}>
+            <span style={{ flex: 1, fontWeight: 'bold', fontSize: '1.1rem' }}>{currentItems[0][0].text}</span>
+            <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
               <input 
                 type="text" 
                 inputMode="numeric" 
