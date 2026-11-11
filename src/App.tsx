@@ -10,7 +10,6 @@ const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => 
     ja: [
       [{ text: "価格（税込）" }], [{ text: "価格（税抜）" }],
       [{ text: "クーポン5%OFF\n(b)×0.95" }], [{ text: "【消費税10%】\n(c)×0.1" }],
-      // (23%) から赤字・装飾を完全に除去
       [{ text: "【手数料】\n消費税額×手数料率" }, { text: `(${feeRatePercent}%)` }],
       [{ text: "【免税額】\n(d-e)" }],
       [{ text: useCoupon ? "【支払金額】\n5%OFF価格税込\n(c)×1.1" : "【支払金額】" }],
@@ -187,21 +186,22 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
             {content.rateTitle}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', borderBottom: '1px solid #ccc', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>{content.r1}</span>
-              <span style={{ fontWeight: 'bold' }}>23%</span>
+            {/* 各行に右側の縦線（borderLeft）を追加 */}
+            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ flex: 1, paddingRight: '10px' }}>{content.r1}</span>
+              <span style={{ width: '70px', textAlign: 'right', fontWeight: 'bold', borderLeft: '2px solid #000', paddingLeft: '10px' }}>23%</span>
             </div>
-            <div style={{ display: 'flex', borderBottom: '1px solid #ccc', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>{content.r2}</span>
-              <span style={{ fontWeight: 'bold' }}>21%</span>
+            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ flex: 1, paddingRight: '10px' }}>{content.r2}</span>
+              <span style={{ width: '70px', textAlign: 'right', fontWeight: 'bold', borderLeft: '2px solid #000', paddingLeft: '10px' }}>21%</span>
             </div>
-            <div style={{ display: 'flex', borderBottom: '1px solid #ccc', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>{content.r3}</span>
-              <span style={{ fontWeight: 'bold' }}>18%</span>
+            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ flex: 1, paddingRight: '10px' }}>{content.r3}</span>
+              <span style={{ width: '70px', textAlign: 'right', fontWeight: 'bold', borderLeft: '2px solid #000', paddingLeft: '10px' }}>18%</span>
             </div>
             <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>{content.r4}</span>
-              <span style={{ fontWeight: 'bold' }}>16%</span>
+              <span style={{ flex: 1, paddingRight: '10px' }}>{content.r4}</span>
+              <span style={{ width: '70px', textAlign: 'right', fontWeight: 'bold', borderLeft: '2px solid #000', paddingLeft: '10px' }}>16%</span>
             </div>
           </div>
         </div>
@@ -275,7 +275,6 @@ function App() {
     en: "※Tax exempt amount" 
   };
 
-  // 各言語の「手数料率」部分のみに赤字・下線・クリックイベントを付与
   const linkStyle = { color: APP_RED, textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold' };
   const openTable = () => setPage('feeTable');
 
