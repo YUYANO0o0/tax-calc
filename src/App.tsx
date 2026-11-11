@@ -10,6 +10,7 @@ const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => 
     ja: [
       [{ text: "価格（税込）" }], [{ text: "価格（税抜）" }],
       [{ text: "クーポン5%OFF\n(b)×0.95" }], [{ text: "【消費税10%】\n(c)×0.1" }],
+      // (23%) から赤字・装飾を完全に除去
       [{ text: "【手数料】\n消費税額×手数料率" }, { text: `(${feeRatePercent}%)` }],
       [{ text: "【免税額】\n(d-e)" }],
       [{ text: useCoupon ? "【支払金額】\n5%OFF価格税込\n(c)×1.1" : "【支払金額】" }],
@@ -99,7 +100,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
     ja: {
       back: "← 戻る",
       title: "【免税手数料率】",
-      calcMethodTitle: "手数料計算方法",
+      calcMethodTitle: "手数料\n計算方法",
       calcMethodDesc: "購入金額に応じた手数料率で\n消費税額をもとに計算",
       rateTitle: "料率",
       r1: "100万円未満",
@@ -112,7 +113,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
     'zh-CN': {
       back: "← 返回",
       title: "【免税手续费率】",
-      calcMethodTitle: "手续费计算方法",
+      calcMethodTitle: "手续费\n计算方法",
       calcMethodDesc: "根据购买金额对应的手续费率\n基于消费税额计算",
       rateTitle: "费率",
       r1: "100万日元未满",
@@ -125,7 +126,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
     'zh-TW': {
       back: "← 返回",
       title: "【免稅手續費率】",
-      calcMethodTitle: "手續費計算方法",
+      calcMethodTitle: "手續費\n計算方法",
       calcMethodDesc: "根據購買金額對應的手續費率\n基於消費稅額計算",
       rateTitle: "費率",
       r1: "100萬日圓未滿",
@@ -138,7 +139,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
     en: {
       back: "← Back",
       title: "【Tax Exemption Fee Rate】",
-      calcMethodTitle: "Calculation Method",
+      calcMethodTitle: "Calculation\nMethod",
       calcMethodDesc: "Calculated based on tax amount with rates\naccording to purchase price",
       rateTitle: "Rates",
       r1: "Under 1,000,000 JPY",
@@ -170,8 +171,9 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
       <h3 style={{ textAlign: 'center', fontSize: '1.25rem', marginBottom: '15px', fontWeight: 'bold' }}>{content.title}</h3>
 
       <div style={{ border: '2px solid #000', backgroundColor: '#fff', borderRadius: '4px', overflow: 'hidden' }}>
+        {/* 計算方法行 */}
         <div style={{ display: 'flex', borderBottom: '2px solid #000' }}>
-          <div style={{ width: '130px', borderRight: '2px solid #000', padding: '12px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+          <div style={{ width: '120px', borderRight: '2px solid #000', padding: '12px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', whiteSpace: 'pre-line' }}>
             {content.calcMethodTitle}
           </div>
           <div style={{ flex: 1, padding: '12px 10px', backgroundColor: '#fff', textAlign: 'center', whiteSpace: 'pre-line', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '500' }}>
@@ -179,20 +181,21 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
           </div>
         </div>
 
+        {/* 料率テーブル */}
         <div style={{ display: 'flex', borderBottom: '2px solid #000' }}>
-          <div style={{ width: '130px', borderRight: '2px solid #000', padding: '10px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+          <div style={{ width: '120px', borderRight: '2px solid #000', padding: '10px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
             {content.rateTitle}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', borderBottom: '1px solid #ccc', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>{content.r1}</span>
               <span style={{ fontWeight: 'bold' }}>23%</span>
             </div>
-            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', borderBottom: '1px solid #ccc', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>{content.r2}</span>
               <span style={{ fontWeight: 'bold' }}>21%</span>
             </div>
-            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', borderBottom: '1px solid #ccc', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>{content.r3}</span>
               <span style={{ fontWeight: 'bold' }}>18%</span>
             </div>
@@ -203,8 +206,9 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
           </div>
         </div>
 
+        {/* 例 */}
         <div style={{ display: 'flex' }}>
-          <div style={{ width: '130px', borderRight: '2px solid #000', padding: '12px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+          <div style={{ width: '120px', borderRight: '2px solid #000', padding: '12px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
             {content.exampleTitle}
           </div>
           <div style={{ flex: 1, padding: '12px 10px', backgroundColor: '#fff', whiteSpace: 'pre-line', textAlign: 'center', lineHeight: 1.5 }}>
