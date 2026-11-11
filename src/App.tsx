@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import './App.css';
 
 const APP_RED = '#ff4d4d';
-type Lang = 'ja' | 'zh-CN' | 'zh-TW' | 'en';
+type Lang = 'ja' | 'zh-CN' | 'zh-TW' | 'en' | 'ko';
 type LabelPart = { text: string; color?: string };
 
 const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => {
@@ -42,6 +42,15 @@ const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => 
       [{ text: useCoupon ? "【Payment】\nTax Incl. 5% OFF\n(c)×1.1" : "【Payment】" }],
       [{ text: "【Final Price】", color: APP_RED }, { text: "\n(g)-(f)" }],
       [{ text: "【Saved】\n(a)-(h)" }]
+    ],
+    ko: [
+      [{ text: "가격 (세금 포함)" }], [{ text: "가격 (세금 제외)" }],
+      [{ text: "쿠폰 5% OFF\n(b)×0.95" }], [{ text: "【소비세 10%】\n(c)×0.1" }],
+      [{ text: "【수수료】\n소비세액×수수료율" }, { text: `(${feeRatePercent}%)` }],
+      [{ text: "【면세액】\n(d-e)" }],
+      [{ text: useCoupon ? "【지불 금액】\n5% OFF 가격 세금 포함\n(c)×1.1" : "【지불 금액】" }],
+      [{ text: "【최종 가격】", color: APP_RED }, { text: "\n(g) - (f)" }],
+      [{ text: "【절약한 금액】\n(a) - (h)" }]
     ]
   };
   return data[lang];
@@ -51,7 +60,7 @@ const RedCode = ({ code }: { code: string }) => (
   <span style={{ color: APP_RED, width: '30px', textAlign: 'right', flexShrink: 0, fontWeight: 'bold' }}>{code}</span>
 );
 
-const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", refundDetail = "", showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {}, isFeeRow = false, feeDescNode }: any) => (
+const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", refundDetailNode = null, showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {}, isFeeRow = false, feeDescNode }: any) => (
   <div style={{ padding: '8px 0', borderBottom: emphasize ? 'none' : '1px solid #ddd' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <span style={{ flex: 1, fontSize: '1rem', lineHeight: 1.2, fontWeight: '500', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -92,7 +101,7 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
     {isRefund && (
       <div style={{ fontSize: '0.82rem', color: '#666', marginTop: '4px', lineHeight: 1.35 }}>
         <div>{refundDesc}</div>
-        <div style={{ marginTop: '2px' }}>{refundDetail}</div>
+        <div style={{ marginTop: '2px' }}>{refundDetailNode}</div>
       </div>
     )}
   </div>
@@ -152,6 +161,19 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
       r4: "10,000,000 JPY or more",
       exampleTitle: "(Example)",
       exampleText: "For 500,000 JPY (Tax Excl., 10% Tax Rate)\nTax Amount 50,000 JPY × 23% = 11,500 JPY"
+    },
+    ko: {
+      back: "← 뒤로가기",
+      title: "【면세 수수료율】",
+      calcMethodTitle: "수수료\n계산 방법",
+      calcMethodDesc: "구매 금액에 따른 수수료율로\n소비세액을 기준으로 계산",
+      rateTitle: "수수료율",
+      r1: "100만 엔 미만",
+      r2: "100만 엔 이상 300만 엔 미만",
+      r3: "300만 엔 이상 1,000만 엔 미만",
+      r4: "1,000만 엔 이상",
+      exampleTitle: "(예시)",
+      exampleText: "세금 제외 500,000엔 (세율 10%)의 경우\n소비세액 50,000엔 × 23% ＝ 11,500엔"
     }
   }[lang];
 
@@ -278,22 +300,50 @@ function App() {
     ja: "免税・ショッピングクーポン\n使用後の最終価格", 
     'zh-CN': "免税/购物优惠券使用后的最终价格", 
     'zh-TW': "免稅/購物優惠券使用後的最終價格", 
-    en: "Final Price After Tax Exemption & Shopping Coupon" 
+    en: "Final Price After Tax Exemption & Shopping Coupon",
+    ko: "면세·쇼핑 쿠폰\n사용 후 최종 가격"
   };
   
   const refundDesc = { 
     ja: "※免税される金額", 
     'zh-CN': "※免税金额", 
     'zh-TW': "※免稅金額", 
-    en: "※Tax exempt amount" 
+    en: "※Tax exempt amount",
+    ko: "※면세되는 금액"
   };
 
-  // ※免税される金額 の下に追加する文章（全言語対応）
-  const refundDetail = {
-    ja: "空港・港の免税手続端末にて、グリーン判定が出たら税関の確認は完了し、後日返金されます。",
-    'zh-CN': "在机场/港口的退税办理终端，显示绿色判定即完成海关确认，将于日后退款。",
-    'zh-TW': "在機場/港口的退稅辦理終端，顯示綠色判定即完成海關確認，將於日後退款。",
-    en: "At airport/port tax refund kiosks, if a green status is displayed, customs verification is complete and the refund will be processed at a later date."
+  // 指定通りの改行レイアウトおよび言語対応
+  const refundDetailNodes: Record<Lang, React.ReactNode> = {
+    ja: (
+      <>
+        <div>空港・港の免税手続端末にて、グリーン判定が出たら</div>
+        <div>税関の確認は完了し、後日返金されます。</div>
+      </>
+    ),
+    'zh-CN': (
+      <>
+        <div>在机场/港口的退税办理终端，显示绿色判定即</div>
+        <div>完成海关确认，将于日后退款。</div>
+      </>
+    ),
+    'zh-TW': (
+      <>
+        <div>在機場/港口的退稅辦理終端，顯示綠色判定即</div>
+        <div>完成海關確認，將於日後退款。</div>
+      </>
+    ),
+    en: (
+      <>
+        <div>At airport/port tax refund kiosks, if a green status is displayed,</div>
+        <div>customs verification is complete and the refund will be processed at a later date.</div>
+      </>
+    ),
+    ko: (
+      <>
+        <div>공항·항구의 면세 수속 단말기에서 녹색 판정이 나오면</div>
+        <div>세관 확인이 완료되며, 추후 환급됩니다.</div>
+      </>
+    )
   };
 
   const linkStyle = { color: APP_RED, textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold' };
@@ -311,6 +361,9 @@ function App() {
     ),
     en: (
       <>*Service fee <span style={linkStyle} onClick={openTable}>rates</span> vary by store and amount.</>
+    ),
+    ko: (
+      <>※매장 및 금액에 따라 <span style={linkStyle} onClick={openTable}>수수료율</span>이 변동됩니다.</>
     )
   };
 
@@ -338,6 +391,12 @@ function App() {
       line2: "at our tax-free counter",
       line3: "on the same day of purchase.",
       line3Notice: "*As a general rule, returns are not accepted\nafter tax-free procedures have been completed."
+    },
+    ko: {
+      line1: "구매하신 당일 내에",
+      line2: "당사 매장 면세 카운터에서",
+      line3: "면세 수속을 진행해 주십시오.",
+      line3Notice: "※면세 수속 후의 환불은\n원칙적으로 불가합니다."
     }
   };
 
@@ -346,9 +405,16 @@ function App() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', padding: '15px', boxSizing: 'border-box' }}>
       <div style={{ width: '100%', maxWidth: '450px', fontSize: '1rem' }}>
-        <div style={{ display: 'flex', gap: '5px', marginBottom: '20px' }}>
-          {[ { id: 'ja', label: '日本語' }, { id: 'zh-CN', label: '简体' }, { id: 'zh-TW', label: '繁體' }, { id: 'en', label: 'English' } ].map(item => (
-            <button key={item.id} onClick={() => setLang(item.id as Lang)} style={{ flex: 1, padding: '10px 0', cursor: 'pointer', backgroundColor: lang === item.id ? '#555' : '#eee', border: 'none', borderRadius: '4px', fontWeight: 'bold' }}>{item.label}</button>
+        {/* 言語切替ボタン（한국어 追加） */}
+        <div style={{ display: 'flex', gap: '4px', marginBottom: '20px' }}>
+          {[ 
+            { id: 'ja', label: '日本語' }, 
+            { id: 'zh-CN', label: '简体' }, 
+            { id: 'zh-TW', label: '繁體' }, 
+            { id: 'en', label: 'English' },
+            { id: 'ko', label: '한국어' }
+          ].map(item => (
+            <button key={item.id} onClick={() => setLang(item.id as Lang)} style={{ flex: 1, padding: '10px 0', cursor: 'pointer', backgroundColor: lang === item.id ? '#555' : '#eee', color: lang === item.id ? '#fff' : '#000', border: 'none', borderRadius: '4px', fontWeight: 'bold', fontSize: '0.85rem' }}>{item.label}</button>
           ))}
         </div>
 
@@ -409,7 +475,7 @@ function App() {
                 code="(f)" 
                 isRefund={true} 
                 refundDesc={refundDesc[lang]} 
-                refundDetail={refundDetail[lang]} 
+                refundDetailNode={refundDetailNodes[lang]} 
               />
               
               <div style={{ border: `3px solid ${APP_RED}`, padding: '10px', borderRadius: '8px', margin: '10px 0' }}>
