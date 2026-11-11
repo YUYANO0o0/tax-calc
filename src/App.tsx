@@ -61,13 +61,14 @@ const RedCode = ({ code }: { code: string }) => (
 );
 
 const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", refundDetailNode = null, showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {}, isFeeRow = false, feeDescNode }: any) => (
-  <div style={{ padding: '8px 0', borderBottom: emphasize ? 'none' : '1px solid #ddd' }}>
+  <div style={{ padding: '8px 0', borderBottom: emphasize ? 'none' : '1px solid #ddd', backgroundColor: '#ffffff', color: '#000000' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <span style={{ flex: 1, fontSize: '1rem', lineHeight: 1.2, fontWeight: '500', display: 'flex', alignItems: 'center', gap: '10px', color: '#333' }}>
+      {/* 左側テキストをセンタリング（中央揃え）配置 */}
+      <span style={{ flex: 1, fontSize: '1rem', lineHeight: 1.2, fontWeight: '500', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: '8px', color: '#000000' }}>
         <span>
           {labelParts.map((part: LabelPart, idx: number) => (
-            <span key={idx} style={{ color: part.color || '#333' }}>
-              {part.text.split('\n').map((line: string, i: number) => <span key={i} style={{ display: 'block' }}>{line}</span>)}
+            <span key={idx} style={{ color: part.color || '#000000' }}>
+              {part.text.split('\n').map((line: string, i: number) => <span key={i} style={{ display: 'block', textAlign: 'center' }}>{line}</span>)}
             </span>
           ))}
         </span>
@@ -81,25 +82,25 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
         )}
       </span>
       <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-        <span style={{ fontWeight: 'bold', color: isFinal ? '#333' : (emphasize ? APP_RED : '#333'), marginRight: '10px', fontSize: emphasize ? '1.6rem' : '1.1rem' }}>
+        <span style={{ fontWeight: 'bold', color: isFinal ? '#000000' : (emphasize ? APP_RED : '#000000'), marginRight: '10px', fontSize: emphasize ? '1.6rem' : '1.1rem' }}>
           {typeof value === 'string' ? value : `¥${value.toLocaleString()}`}
         </span>
         <RedCode code={code} />
       </div>
     </div>
     {isFeeRow && (
-      <div style={{ fontSize: '0.8rem', color: '#666', marginTop: '4px' }}>
+      <div style={{ fontSize: '0.8rem', color: '#555555', marginTop: '4px', textAlign: 'center' }}>
         {feeDescNode}
       </div>
     )}
     {showNotice && (
       <div style={{ textAlign: 'right', marginTop: '4px', fontSize: '1.15rem', fontWeight: 'bold' }}>
         <span style={{ color: APP_RED }}>【免税連絡票】</span>
-        <span style={{ color: '#333' }}>お渡し</span>
+        <span style={{ color: '#000000' }}>お渡し</span>
       </div>
     )}
     {isRefund && (
-      <div style={{ fontSize: '0.82rem', color: '#666', marginTop: '4px', lineHeight: 1.35 }}>
+      <div style={{ fontSize: '0.82rem', color: '#444444', marginTop: '4px', lineHeight: 1.35, textAlign: 'center' }}>
         <div>{refundDesc}</div>
         <div style={{ marginTop: '2px' }}>{refundDetailNode}</div>
       </div>
@@ -107,7 +108,7 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
   </div>
 );
 
-// 手数料率表画面（ダークモード対策：背景白・文字色黒に明確に固定）
+// 手数料率表画面（背景白・文字黒でダークモード完全ガード）
 const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
   const content = {
     ja: {
@@ -178,14 +179,14 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
   }[lang];
 
   return (
-    <div style={{ width: '100%', maxWidth: '450px', margin: '0 auto', fontSize: '0.9rem', color: '#333' }}>
+    <div style={{ width: '100%', maxWidth: '450px', margin: '0 auto', fontSize: '0.9rem', color: '#000000', backgroundColor: '#ffffff', padding: '10px', borderRadius: '8px' }}>
       <button 
         onClick={onBack} 
         style={{ 
           padding: '8px 16px', 
-          backgroundColor: '#eee', 
-          color: '#333',
-          border: '1px solid #ccc', 
+          backgroundColor: '#eeeeee', 
+          color: '#000000',
+          border: '1px solid #cccccc', 
           borderRadius: '4px', 
           cursor: 'pointer',
           fontWeight: 'bold',
@@ -195,58 +196,58 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
         {content.back}
       </button>
 
-      <h3 style={{ textAlign: 'center', fontSize: '1.25rem', marginBottom: '15px', fontWeight: 'bold', color: '#111' }}>{content.title}</h3>
+      <h3 style={{ textAlign: 'center', fontSize: '1.25rem', marginBottom: '15px', fontWeight: 'bold', color: '#000000' }}>{content.title}</h3>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid #000', backgroundColor: '#ffffff', color: '#000000' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid #000000', backgroundColor: '#ffffff', color: '#000000' }}>
         <tbody>
           <tr>
-            <td style={{ width: '90px', border: '1px solid #000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'pre-line', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ width: '90px', border: '1px solid #000000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'pre-line', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
               {content.calcMethodTitle}
             </td>
-            <td colSpan={2} style={{ border: '1px solid #000', padding: '12px 8px', textAlign: 'center', whiteSpace: 'pre-line', fontWeight: '500', verticalAlign: 'middle', lineHeight: 1.4, backgroundColor: '#ffffff', color: '#000000' }}>
+            <td colSpan={2} style={{ border: '1px solid #000000', padding: '12px 8px', textAlign: 'center', whiteSpace: 'pre-line', fontWeight: '500', verticalAlign: 'middle', lineHeight: 1.4, backgroundColor: '#ffffff', color: '#000000' }}>
               {content.calcMethodDesc}
             </td>
           </tr>
           <tr>
-            <td rowSpan={4} style={{ border: '1px solid #000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td rowSpan={4} style={{ border: '1px solid #000000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
               {content.rateTitle}
             </td>
-            <td style={{ border: '1px solid #000', padding: '10px 8px', verticalAlign: 'middle', textAlign: 'left', whiteSpace: 'nowrap', fontSize: '0.85rem', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ border: '1px solid #000000', padding: '10px 8px', verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap', fontSize: '0.85rem', backgroundColor: '#ffffff', color: '#000000' }}>
               {content.r1}
             </td>
-            <td style={{ width: '60px', border: '1px solid #000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ width: '60px', border: '1px solid #000000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
               23%
             </td>
           </tr>
           <tr>
-            <td style={{ border: '1px solid #000', padding: '10px 8px', verticalAlign: 'middle', textAlign: 'left', whiteSpace: 'nowrap', fontSize: '0.85rem', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ border: '1px solid #000000', padding: '10px 8px', verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap', fontSize: '0.85rem', backgroundColor: '#ffffff', color: '#000000' }}>
               {content.r2}
             </td>
-            <td style={{ width: '60px', border: '1px solid #000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ width: '60px', border: '1px solid #000000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
               21%
             </td>
           </tr>
           <tr>
-            <td style={{ border: '1px solid #000', padding: '10px 8px', verticalAlign: 'middle', textAlign: 'left', whiteSpace: 'nowrap', fontSize: '0.85rem', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ border: '1px solid #000000', padding: '10px 8px', verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap', fontSize: '0.85rem', backgroundColor: '#ffffff', color: '#000000' }}>
               {content.r3}
             </td>
-            <td style={{ width: '60px', border: '1px solid #000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ width: '60px', border: '1px solid #000000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
               18%
             </td>
           </tr>
           <tr>
-            <td style={{ border: '1px solid #000', padding: '10px 8px', verticalAlign: 'middle', textAlign: 'left', whiteSpace: 'nowrap', fontSize: '0.85rem', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ border: '1px solid #000000', padding: '10px 8px', verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap', fontSize: '0.85rem', backgroundColor: '#ffffff', color: '#000000' }}>
               {content.r4}
             </td>
-            <td style={{ width: '60px', border: '1px solid #000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ width: '60px', border: '1px solid #000000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
               16%
             </td>
           </tr>
           <tr>
-            <td style={{ border: '1px solid #000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td style={{ border: '1px solid #000000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
               {content.exampleTitle}
             </td>
-            <td colSpan={2} style={{ border: '1px solid #000', padding: '12px 8px', textAlign: 'center', whiteSpace: 'pre-line', lineHeight: 1.5, verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
+            <td colSpan={2} style={{ border: '1px solid #000000', padding: '12px 8px', textAlign: 'center', whiteSpace: 'pre-line', lineHeight: 1.5, verticalAlign: 'middle', backgroundColor: '#ffffff', color: '#000000' }}>
               {content.exampleText}
             </td>
           </tr>
@@ -313,35 +314,36 @@ function App() {
     ko: "※면세되는 금액"
   };
 
+  // 指定文言に修正された案内文（全言語対応）
   const refundDetailNodes: Record<Lang, React.ReactNode> = {
     ja: (
       <>
-        <div>空港・港の免税手続端末にて、グリーン判定が出たら</div>
-        <div>税関の確認は完了し、後日返金されます。</div>
+        <div>空港・港の免税手続端末にてグリーン判定が出て、</div>
+        <div>税関の確認が完了した後の日に戻ってくる金額です。</div>
       </>
     ),
     'zh-CN': (
       <>
-        <div>在机场/港口的退税办理终端，显示绿色判定即</div>
-        <div>完成海关确认，将于日后退款。</div>
+        <div>在机场/港口退税终端显示绿色判定，</div>
+        <div>海关确认完成后日后退还的金额。</div>
       </>
     ),
     'zh-TW': (
       <>
-        <div>在機場/港口的退稅辦理終端，顯示綠色判定即</div>
-        <div>完成海關確認，將於日後退款。</div>
+        <div>在機場/港口退稅終端顯示綠色判定，</div>
+        <div>海關確認完成後日後退還的金額。</div>
       </>
     ),
     en: (
       <>
-        <div>At airport/port tax refund kiosks, if a green status is displayed,</div>
-        <div>customs verification is complete and the refund will be processed at a later date.</div>
+        <div>The amount refunded on a later date after obtaining a green status</div>
+        <div>at the airport/port kiosk and completing customs verification.</div>
       </>
     ),
     ko: (
       <>
-        <div>공항·항구의 면세 수속 단말기에서 녹색 판정이 나오면</div>
-        <div>세관 확인이 완료되며, 추후 환급됩니다.</div>
+        <div>공항·항구의 면세 단말기에서 녹색 판정이 나오고,</div>
+        <div>세관 확인이 완료된 후 추후 환급되는 금액입니다.</div>
       </>
     )
   };
@@ -403,8 +405,9 @@ function App() {
   const showNotice = result.b >= 1000000;
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', padding: '15px', boxSizing: 'border-box', backgroundColor: '#f9f9f9', color: '#333' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', padding: '15px', boxSizing: 'border-box', backgroundColor: '#ffffff', color: '#000000' }}>
       <div style={{ width: '100%', maxWidth: '450px', fontSize: '1rem' }}>
+        {/* 言語切替ボタン */}
         <div style={{ display: 'flex', gap: '4px', marginBottom: '20px' }}>
           {[ 
             { id: 'ja', label: '日本語' }, 
@@ -413,7 +416,7 @@ function App() {
             { id: 'en', label: 'English' },
             { id: 'ko', label: '한국어' }
           ].map(item => (
-            <button key={item.id} onClick={() => setLang(item.id as Lang)} style={{ flex: 1, padding: '10px 0', cursor: 'pointer', backgroundColor: lang === item.id ? '#555' : '#eee', color: lang === item.id ? '#fff' : '#000', border: 'none', borderRadius: '4px', fontWeight: 'bold', fontSize: '0.85rem' }}>{item.label}</button>
+            <button key={item.id} onClick={() => setLang(item.id as Lang)} style={{ flex: 1, padding: '10px 0', cursor: 'pointer', backgroundColor: lang === item.id ? '#555555' : '#eeeeee', color: lang === item.id ? '#ffffff' : '#000000', border: 'none', borderRadius: '4px', fontWeight: 'bold', fontSize: '0.85rem' }}>{item.label}</button>
           ))}
         </div>
 
@@ -421,11 +424,11 @@ function App() {
           <FeeTablePage lang={lang} onBack={() => setPage('calc')} />
         ) : (
           <>
-            <h2 style={{ fontSize: '1.25rem', textAlign: 'center', margin: '0 0 20px 0', whiteSpace: 'pre-line', color: '#111' }}>{titles[lang]}</h2>
+            <h2 style={{ fontSize: '1.25rem', textAlign: 'center', margin: '0 0 20px 0', whiteSpace: 'pre-line', color: '#000000' }}>{titles[lang]}</h2>
 
-            <div style={{ border: '2px solid #ccc', padding: '15px', borderRadius: '10px', backgroundColor: '#fff', color: '#333' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '2px solid #888', alignItems: 'center' }}>
-                <span style={{ flex: 1, fontWeight: 'bold', fontSize: '1.1rem', color: '#333' }}>{currentItems[0][0].text}</span>
+            <div style={{ border: '2px solid #cccccc', padding: '15px', borderRadius: '10px', backgroundColor: '#ffffff', color: '#000000' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '2px solid #888888', alignItems: 'center' }}>
+                <span style={{ flex: 1, fontWeight: 'bold', fontSize: '1.1rem', color: '#000000', textAlign: 'center' }}>{currentItems[0][0].text}</span>
                 <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                   <input 
                     type="text" 
@@ -436,7 +439,7 @@ function App() {
                     spellCheck={false}
                     value={inputValue} 
                     onChange={handleInputChange} 
-                    style={{ width: '110px', textAlign: 'right', fontSize: '1.1rem', padding: '5px', backgroundColor: '#fff', color: '#000', border: '1px solid #ccc', borderRadius: '4px' }} 
+                    style={{ width: '110px', textAlign: 'right', fontSize: '1.1rem', padding: '5px', backgroundColor: '#ffffff', color: '#000000', border: '1px solid #cccccc', borderRadius: '4px' }} 
                   />
                   <RedCode code="(a)" />
                 </div>
@@ -477,17 +480,29 @@ function App() {
                 refundDetailNode={refundDetailNodes[lang]} 
               />
               
-              <div style={{ border: `3px solid ${APP_RED}`, padding: '10px', borderRadius: '8px', margin: '10px 0', backgroundColor: '#fff' }}>
+              <div style={{ border: `3px solid ${APP_RED}`, padding: '10px', borderRadius: '8px', margin: '10px 0', backgroundColor: '#ffffff' }}>
                 <Row labelParts={currentItems[6]} value={result.g} code="(g)" emphasize={true} />
               </div>
               
               <Row labelParts={currentItems[7]} value={result.h} code="(h)" isFinal={true} />
               <Row labelParts={currentItems[8]} value={result.saved} code="" />
 
-              <div style={{ marginTop: '18px', borderTop: '1px solid #ddd', paddingTop: '14px', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.05rem', fontWeight: 'bold', color: '#333', lineHeight: 1.5, marginBottom: '8px' }}>
+              <div style={{ marginTop: '18px', borderTop: '1px solid #dddddd', paddingTop: '14px', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.05rem', fontWeight: 'bold', color: '#000000', lineHeight: 1.5, marginBottom: '8px' }}>
                   <div>{footerNotices[lang].line1}</div>
                   <div>{footerNotices[lang].line2}</div>
                   <div>{footerNotices[lang].line3}</div>
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 'bold',
+                <div style={{ fontSize: '0.95rem', fontWeight: 'bold', color: APP_RED, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
+                  {footerNotices[lang].line3Notice}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default App;
