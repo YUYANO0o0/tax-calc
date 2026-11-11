@@ -12,7 +12,6 @@ const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => 
       [{ text: "クーポン5%OFF\n(b)×0.95" }], [{ text: "【消費税10%】\n(c)×0.1" }],
       [{ text: "【手数料】\n消費税額×手数料率" }, { text: `(${feeRatePercent}%)`, color: APP_RED }],
       [{ text: "【免税額】\n(d-e)" }],
-      // クーポンのチェック有無によってテキストを切り替え
       [{ text: useCoupon ? "【支払金額】\n5%OFF価格税込\n(c)×1.1" : "【支払金額】" }],
       [{ text: "【最終価格】", color: APP_RED }, { text: "\n(g) - (f)" }],
       [{ text: "得した金額\n(a) - (h)" }]
@@ -52,7 +51,7 @@ const RedCode = ({ code }: { code: string }) => (
   <span style={{ color: APP_RED, width: '30px', textAlign: 'right', flexShrink: 0, fontWeight: 'bold' }}>{code}</span>
 );
 
-const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {}, isFeeRow = false }: any) => (
+const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {}, isFeeRow = false, feeDesc = "" }: any) => (
   <div style={{ padding: '8px 0', borderBottom: emphasize ? 'none' : '1px solid #ddd' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <span style={{ flex: 1, fontSize: '1rem', lineHeight: 1.2, fontWeight: '500', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -79,9 +78,10 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
         <RedCode code={code} />
       </div>
     </div>
+    {/* 多言語対応の手数料注意書き */}
     {isFeeRow && (
       <div style={{ fontSize: '0.8rem', color: '#666', marginTop: '4px' }}>
-        ※店舗、金額により手数料率はかわります。
+        {feeDesc}
       </div>
     )}
     {showNotice && (
@@ -133,17 +133,26 @@ function App() {
   };
 
   const currentItems = useMemo(() => getBaseData(lang, result.feeRatePercent, useCoupon), [lang, result.feeRatePercent, useCoupon]);
+  
   const titles = { 
     ja: "免税・ショッピングクーポン\n使用後の最終価格", 
     'zh-CN': "免税/购物优惠券使用后的最终价格", 
     'zh-TW': "免稅/購物優惠券使用後的最終價格", 
     en: "Final Price After Tax Exemption & Shopping Coupon" 
   };
+  
   const refundDesc = { 
     ja: "※免税される金額", 
     'zh-CN': "※免税金额", 
     'zh-TW': "※免稅金額", 
     en: "※Tax exempt amount" 
+  };
+
+  const feeDesc = {
+    ja: "※店舗、金額により手数料率はかわります。",
+    'zh-CN': "※手续费率根据店铺和金额有所不同。",
+    'zh-TW': "※手續費率根據店舖和金額有所不同。",
+    en: "※Service fee rates vary by store and amount."
   };
 
   const footerNotices: Record<Lang, { line1: string; line2: string; line3: string }> = {
@@ -218,7 +227,10 @@ function App() {
           />
 
           <Row labelParts={currentItems[3]} value={result.d} code="(d)" />
-          <Row labelParts={currentItems[4]} value={result.e} code="(e)" isFeeRow={true} />
+          
+          {/* 手数料行に多言語対応テキストを渡す */}
+          <Row labelParts={currentItems[4]} value={result.e} code="(e)" isFeeRow={true} feeDesc={feeDesc[lang]} />
+          
           <Row labelParts={currentItems[5]} value={result.f} code="(f)" isRefund={true} refundDesc={refundDesc[lang]} />
           
           <div style={{ border: `3px solid ${APP_RED}`, padding: '10px', borderRadius: '8px', margin: '10px 0' }}>
