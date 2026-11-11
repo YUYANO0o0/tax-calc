@@ -63,7 +63,6 @@ const RedCode = ({ code }: { code: string }) => (
 const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", refundDetailNode = null, showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {}, isFeeRow = false, feeDescNode }: any) => (
   <div style={{ padding: '8px 0', borderBottom: emphasize ? 'none' : '1px solid #ddd', backgroundColor: '#ffffff', color: '#000000' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      {/* 左側テキストをセンタリング（中央揃え）配置 */}
       <span style={{ flex: 1, fontSize: '1rem', lineHeight: 1.2, fontWeight: '500', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: '8px', color: '#000000' }}>
         <span>
           {labelParts.map((part: LabelPart, idx: number) => (
@@ -95,8 +94,7 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
     )}
     {showNotice && (
       <div style={{ textAlign: 'right', marginTop: '4px', fontSize: '1.15rem', fontWeight: 'bold' }}>
-        <span style={{ color: APP_RED }}>【免税連絡票】</span>
-        <span style={{ color: '#000000' }}>お渡し</span>
+        <span style={{ color: APP_RED }}>【免税連絡票】必要</span>
       </div>
     )}
     {isRefund && (
@@ -108,7 +106,7 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
   </div>
 );
 
-// 手数料率表画面（背景白・文字黒でダークモード完全ガード）
+// 手数料率表画面
 const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
   const content = {
     ja: {
@@ -314,7 +312,6 @@ function App() {
     ko: "※면세되는 금액"
   };
 
-  // 指定文言に修正された案内文（全言語対応）
   const refundDetailNodes: Record<Lang, React.ReactNode> = {
     ja: (
       <>
