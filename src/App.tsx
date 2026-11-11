@@ -93,7 +93,7 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
   </div>
 );
 
-// 手数料率表画面（コンポーネント）
+// 手数料率表画面（コンポーネント：HTMLテーブルを使用して正確な縦線を引く）
 const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
   const content = {
     ja: {
@@ -169,53 +169,62 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
 
       <h3 style={{ textAlign: 'center', fontSize: '1.25rem', marginBottom: '15px', fontWeight: 'bold' }}>{content.title}</h3>
 
-      <div style={{ border: '2px solid #000', backgroundColor: '#fff', borderRadius: '4px', overflow: 'hidden' }}>
-        {/* 計算方法行 */}
-        <div style={{ display: 'flex', borderBottom: '2px solid #000' }}>
-          <div style={{ width: '120px', borderRight: '2px solid #000', padding: '12px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', whiteSpace: 'pre-line' }}>
-            {content.calcMethodTitle}
-          </div>
-          <div style={{ flex: 1, padding: '12px 10px', backgroundColor: '#fff', textAlign: 'center', whiteSpace: 'pre-line', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '500' }}>
-            {content.calcMethodDesc}
-          </div>
-        </div>
-
-        {/* 料率テーブル */}
-        <div style={{ display: 'flex', borderBottom: '2px solid #000' }}>
-          <div style={{ width: '120px', borderRight: '2px solid #000', padding: '10px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-            {content.rateTitle}
-          </div>
-          <div style={{ flex: 1 }}>
-            {/* 各行に右側の縦線（borderLeft）を追加 */}
-            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ flex: 1, paddingRight: '10px' }}>{content.r1}</span>
-              <span style={{ width: '70px', textAlign: 'right', fontWeight: 'bold', borderLeft: '2px solid #000', paddingLeft: '10px' }}>23%</span>
-            </div>
-            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ flex: 1, paddingRight: '10px' }}>{content.r2}</span>
-              <span style={{ width: '70px', textAlign: 'right', fontWeight: 'bold', borderLeft: '2px solid #000', paddingLeft: '10px' }}>21%</span>
-            </div>
-            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ flex: 1, paddingRight: '10px' }}>{content.r3}</span>
-              <span style={{ width: '70px', textAlign: 'right', fontWeight: 'bold', borderLeft: '2px solid #000', paddingLeft: '10px' }}>18%</span>
-            </div>
-            <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ flex: 1, paddingRight: '10px' }}>{content.r4}</span>
-              <span style={{ width: '70px', textAlign: 'right', fontWeight: 'bold', borderLeft: '2px solid #000', paddingLeft: '10px' }}>16%</span>
-            </div>
-          </div>
-        </div>
-
-        {/* 例 */}
-        <div style={{ display: 'flex' }}>
-          <div style={{ width: '120px', borderRight: '2px solid #000', padding: '12px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-            {content.exampleTitle}
-          </div>
-          <div style={{ flex: 1, padding: '12px 10px', backgroundColor: '#fff', whiteSpace: 'pre-line', textAlign: 'center', lineHeight: 1.5 }}>
-            {content.exampleText}
-          </div>
-        </div>
-      </div>
+      {/* HTMLのtableタグを使用して正確な格子状の線を構築 */}
+      <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid #000', backgroundColor: '#fff' }}>
+        <tbody>
+          <tr>
+            <td style={{ width: '110px', border: '1px solid #000', padding: '10px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'pre-line', verticalAlign: 'middle' }}>
+              {content.calcMethodTitle}
+            </td>
+            <td colSpan={2} style={{ border: '1px solid #000', padding: '12px', textAlign: 'center', whiteSpace: 'pre-line', fontWeight: '500', verticalAlign: 'middle' }}>
+              {content.calcMethodDesc}
+            </td>
+          </tr>
+          <tr>
+            <td rowSpan={4} style={{ border: '1px solid #000', padding: '10px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle' }}>
+              {content.rateTitle}
+            </td>
+            <td style={{ border: '1px solid #000', padding: '10px', verticalAlign: 'middle' }}>
+              {content.r1}
+            </td>
+            <td style={{ width: '70px', border: '1px solid #000', padding: '10px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
+              23%
+            </td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid #000', padding: '10px', verticalAlign: 'middle' }}>
+              {content.r2}
+            </td>
+            <td style={{ border: '1px solid #000', padding: '10px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
+              21%
+            </td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid #000', padding: '10px', verticalAlign: 'middle' }}>
+              {content.r3}
+            </td>
+            <td style={{ border: '1px solid #000', padding: '10px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
+              18%
+            </td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid #000', padding: '10px', verticalAlign: 'middle' }}>
+              {content.r4}
+            </td>
+            <td style={{ border: '1px solid #000', padding: '10px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
+              16%
+            </td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid #000', padding: '10px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle' }}>
+              {content.exampleTitle}
+            </td>
+            <td colSpan={2} style={{ border: '1px solid #000', padding: '12px', textAlign: 'center', whiteSpace: 'pre-line', lineHeight: 1.5, verticalAlign: 'middle' }}>
+              {content.exampleText}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
