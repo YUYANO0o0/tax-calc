@@ -93,7 +93,7 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
   </div>
 );
 
-// 手数料率表画面（コンポーネント：HTMLテーブルを使用して正確な縦線を引く）
+// 手数料率表画面（テキストの不自然な折返しを完全防止）
 const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
   const content = {
     ja: {
@@ -107,7 +107,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
       r3: "300万円以上1,000万円未満",
       r4: "1,000万円以上",
       exampleTitle: "(例)",
-      exampleText: "税抜500,000円（税率10%）の場合\n消費税額50,000円 × 23% ＝ 11,500円"
+      exampleText: "税抜500,000円 (税率10%) の場合\n消費税額50,000円 × 23% ＝ 11,500円"
     },
     'zh-CN': {
       back: "← 返回",
@@ -120,7 +120,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
       r3: "300万日元以上1,000万日元未满",
       r4: "1,000万日元以上",
       exampleTitle: "(例)",
-      exampleText: "不含税500,000日元（税率10%）时\n消费税额50,000日元 × 23% ＝ 11,500日元"
+      exampleText: "不含税500,000日元 (税率10%) 时\n消费税额50,000日元 × 23% ＝ 11,500日元"
     },
     'zh-TW': {
       back: "← 返回",
@@ -133,7 +133,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
       r3: "300萬日圓以上1,000萬日圓未滿",
       r4: "1,000萬日圓以上",
       exampleTitle: "(例)",
-      exampleText: "不含稅500,000日圓（稅率10%）時\n消費稅額50,000日圓 × 23% ＝ 11,500日圓"
+      exampleText: "不含稅500,000日圓 (稅率10%) 時\n消費稅額50,000日圓 × 23% ＝ 11,500日圓"
     },
     en: {
       back: "← Back",
@@ -151,7 +151,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
   }[lang];
 
   return (
-    <div style={{ width: '100%', maxWidth: '450px', margin: '0 auto', fontSize: '0.95rem' }}>
+    <div style={{ width: '100%', maxWidth: '450px', margin: '0 auto', fontSize: '0.9rem' }}>
       <button 
         onClick={onBack} 
         style={{ 
@@ -169,57 +169,56 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
 
       <h3 style={{ textAlign: 'center', fontSize: '1.25rem', marginBottom: '15px', fontWeight: 'bold' }}>{content.title}</h3>
 
-      {/* HTMLのtableタグを使用して正確な格子状の線を構築 */}
-      <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid #000', backgroundColor: '#fff' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid #000', backgroundColor: '#fff', tableLayout: 'fixed' }}>
         <tbody>
           <tr>
-            <td style={{ width: '110px', border: '1px solid #000', padding: '10px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'pre-line', verticalAlign: 'middle' }}>
+            <td style={{ width: '85px', border: '1px solid #000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'pre-line', verticalAlign: 'middle' }}>
               {content.calcMethodTitle}
             </td>
-            <td colSpan={2} style={{ border: '1px solid #000', padding: '12px', textAlign: 'center', whiteSpace: 'pre-line', fontWeight: '500', verticalAlign: 'middle' }}>
+            <td colSpan={2} style={{ border: '1px solid #000', padding: '12px 6px', textAlign: 'center', whiteSpace: 'pre-line', fontWeight: '500', verticalAlign: 'middle', lineHeight: 1.4 }}>
               {content.calcMethodDesc}
             </td>
           </tr>
           <tr>
-            <td rowSpan={4} style={{ border: '1px solid #000', padding: '10px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle' }}>
+            <td rowSpan={4} style={{ border: '1px solid #000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle' }}>
               {content.rateTitle}
             </td>
-            <td style={{ border: '1px solid #000', padding: '10px', verticalAlign: 'middle' }}>
+            <td style={{ border: '1px solid #000', padding: '10px 6px', verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
               {content.r1}
             </td>
-            <td style={{ width: '70px', border: '1px solid #000', padding: '10px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
+            <td style={{ width: '60px', border: '1px solid #000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
               23%
             </td>
           </tr>
           <tr>
-            <td style={{ border: '1px solid #000', padding: '10px', verticalAlign: 'middle' }}>
+            <td style={{ border: '1px solid #000', padding: '10px 6px', verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
               {content.r2}
             </td>
-            <td style={{ border: '1px solid #000', padding: '10px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
+            <td style={{ border: '1px solid #000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
               21%
             </td>
           </tr>
           <tr>
-            <td style={{ border: '1px solid #000', padding: '10px', verticalAlign: 'middle' }}>
+            <td style={{ border: '1px solid #000', padding: '10px 6px', verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
               {content.r3}
             </td>
-            <td style={{ border: '1px solid #000', padding: '10px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
+            <td style={{ border: '1px solid #000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
               18%
             </td>
           </tr>
           <tr>
-            <td style={{ border: '1px solid #000', padding: '10px', verticalAlign: 'middle' }}>
+            <td style={{ border: '1px solid #000', padding: '10px 6px', verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
               {content.r4}
             </td>
-            <td style={{ border: '1px solid #000', padding: '10px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
+            <td style={{ border: '1px solid #000', padding: '10px 4px', textAlign: 'center', fontWeight: 'bold', verticalAlign: 'middle' }}>
               16%
             </td>
           </tr>
           <tr>
-            <td style={{ border: '1px solid #000', padding: '10px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle' }}>
+            <td style={{ border: '1px solid #000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle' }}>
               {content.exampleTitle}
             </td>
-            <td colSpan={2} style={{ border: '1px solid #000', padding: '12px', textAlign: 'center', whiteSpace: 'pre-line', lineHeight: 1.5, verticalAlign: 'middle' }}>
+            <td colSpan={2} style={{ border: '1px solid #000', padding: '12px 6px', textAlign: 'center', whiteSpace: 'pre-line', lineHeight: 1.5, verticalAlign: 'middle' }}>
               {content.exampleText}
             </td>
           </tr>
@@ -384,33 +383,4 @@ function App() {
                 value={result.e} 
                 code="(e)" 
                 isFeeRow={true} 
-                feeDescNode={feeDescNodes[lang]} 
-              />
-              
-              <Row labelParts={currentItems[5]} value={result.f} code="(f)" isRefund={true} refundDesc={refundDesc[lang]} />
-              
-              <div style={{ border: `3px solid ${APP_RED}`, padding: '10px', borderRadius: '8px', margin: '10px 0' }}>
-                <Row labelParts={currentItems[6]} value={result.g} code="(g)" emphasize={true} />
-              </div>
-              
-              <Row labelParts={currentItems[7]} value={result.h} code="(h)" isFinal={true} />
-              <Row labelParts={currentItems[8]} value={result.saved} code="" />
-
-              <div style={{ marginTop: '18px', borderTop: '1px solid #ddd', paddingTop: '14px', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.05rem', fontWeight: 'bold', color: '#333', lineHeight: 1.5, marginBottom: '8px' }}>
-                  <div>{footerNotices[lang].line1}</div>
-                  <div>{footerNotices[lang].line2}</div>
-                </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 'bold', color: APP_RED, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
-                  {footerNotices[lang].line3}
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-export default App;
+                feeDescNode={feeDescNodes[lang]}
