@@ -93,7 +93,7 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
   </div>
 );
 
-// 手数料率表画面（テキストの折返しを完全になくし、すっきりと収まるよう調整）
+// 手数料率表画面
 const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
   const content = {
     ja: {
@@ -183,7 +183,6 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
             <td rowSpan={4} style={{ border: '1px solid #000', padding: '10px 4px', fontWeight: 'bold', textAlign: 'center', verticalAlign: 'middle' }}>
               {content.rateTitle}
             </td>
-            {/* 金額帯：フォントサイズを微調整し、絶対に不自然な改行をさせない */}
             <td style={{ border: '1px solid #000', padding: '10px 8px', verticalAlign: 'middle', textAlign: 'left', whiteSpace: 'nowrap', fontSize: '0.85rem' }}>
               {content.r1}
             </td>
@@ -302,26 +301,31 @@ function App() {
     )
   };
 
-  const footerNotices: Record<Lang, { line1: string; line2: string; line3: string }> = {
+  // 下部の案内文（ご指定通り日本語部分を変更）
+  const footerNotices: Record<Lang, { line1: string; line2: string; line3: string; line3Notice: string }> = {
     ja: {
-      line1: "購入されましたら必ず当日中に",
-      line2: "免税カウンターで免税手続きをしてください。",
-      line3: "※免税手続き後の返品は\n原則お断りさせていただきます。"
+      line1: "購入された当日中に",
+      line2: "当店の免税カウンターにて",
+      line3: "免税手続きをしてください。",
+      line3Notice: "※免税手続き後の返品は\n原則お断りさせていただきます。"
     },
     'zh-CN': {
       line1: "购买后请务必于当天内",
-      line2: "在退税柜台办理退税手续。",
-      line3: "※原则上谢绝在办理退税手续后\n进行退货。"
+      line2: "在退税柜台",
+      line3: "办理退税手续。",
+      line3Notice: "※原则上谢绝在办理退税手续后\n进行退货。"
     },
     'zh-TW': {
       line1: "購買後請務必於當天內",
-      line2: "在退稅櫃檯辦理退稅手續。",
-      line3: "※原則上謝絕在辦理退稅手續後\n進行退貨。"
+      line2: "在退稅櫃檯",
+      line3: "辦理退稅手續。",
+      line3Notice: "※原則上謝絕在辦理退稅手續後\n進行退貨。"
     },
     en: {
       line1: "Please be sure to complete tax-free procedures",
-      line2: "at the tax-free counter on the same day of purchase.",
-      line3: "*As a general rule, returns are not accepted\nafter tax-free procedures have been completed."
+      line2: "at our tax-free counter",
+      line3: "on the same day of purchase.",
+      line3Notice: "*As a general rule, returns are not accepted\nafter tax-free procedures have been completed."
     }
   };
 
@@ -400,9 +404,10 @@ function App() {
                 <div style={{ fontSize: '1.05rem', fontWeight: 'bold', color: '#333', lineHeight: 1.5, marginBottom: '8px' }}>
                   <div>{footerNotices[lang].line1}</div>
                   <div>{footerNotices[lang].line2}</div>
+                  <div>{footerNotices[lang].line3}</div>
                 </div>
                 <div style={{ fontSize: '0.95rem', fontWeight: 'bold', color: APP_RED, lineHeight: 1.5, whiteSpace: 'pre-line' }}>
-                  {footerNotices[lang].line3}
+                  {footerNotices[lang].line3Notice}
                 </div>
               </div>
             </div>
