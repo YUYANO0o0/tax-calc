@@ -5,14 +5,15 @@ const APP_RED = '#ff4d4d';
 type Lang = 'ja' | 'zh-CN' | 'zh-TW' | 'en';
 type LabelPart = { text: string; color?: string };
 
-const getBaseData = (lang: Lang, feeRatePercent: number) => {
+const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => {
   const data: Record<Lang, LabelPart[][]> = {
     ja: [
       [{ text: "価格（税込）" }], [{ text: "価格（税抜）" }],
       [{ text: "クーポン5%OFF\n(b)×0.95" }], [{ text: "【消費税10%】\n(c)×0.1" }],
       [{ text: "【手数料】\n消費税額×手数料率" }, { text: `(${feeRatePercent}%)`, color: APP_RED }],
       [{ text: "【免税額】\n(d-e)" }],
-      [{ text: "【支払金額】\n5%OFF価格税込\n(c)×1.1" }],
+      // クーポンのチェック有無によってテキストを切り替え
+      [{ text: useCoupon ? "【支払金額】\n5%OFF価格税込\n(c)×1.1" : "【支払金額】" }],
       [{ text: "【最終価格】", color: APP_RED }, { text: "\n(g) - (f)" }],
       [{ text: "得した金額\n(a) - (h)" }]
     ],
@@ -21,7 +22,7 @@ const getBaseData = (lang: Lang, feeRatePercent: number) => {
       [{ text: "优惠券5%OFF\n(b)×0.95" }], [{ text: "【消费税10%】\n(c)×0.1" }],
       [{ text: "【手续费】\n消费税额×手续费率" }, { text: `(${feeRatePercent}%)`, color: APP_RED }],
       [{ text: "【免税额】\n(d-e)" }],
-      [{ text: "【支付金额】\n5%OFF含税价\n(c)×1.1" }],
+      [{ text: useCoupon ? "【支付金额】\n5%OFF含税价\n(c)×1.1" : "【支付金额】" }],
       [{ text: "【最终价格】", color: APP_RED }, { text: "\n(g) - (f)" }],
       [{ text: "【省下金额】\n(a) - (h)" }]
     ],
@@ -30,7 +31,7 @@ const getBaseData = (lang: Lang, feeRatePercent: number) => {
       [{ text: "優惠券5%OFF\n(b)×0.95" }], [{ text: "【消費稅10%】\n(c)×0.1" }],
       [{ text: "【手續稅】\n消費稅額×手續費率" }, { text: `(${feeRatePercent}%)`, color: APP_RED }],
       [{ text: "【免稅額】\n(d-e)" }],
-      [{ text: "【支付金額】\n5%OFF含稅價\n(c)×1.1" }],
+      [{ text: useCoupon ? "【支付金額】\n5%OFF含稅價\n(c)×1.1" : "【支付金額】" }],
       [{ text: "【最終價格】", color: APP_RED }, { text: "\n(g) - (f)" }],
       [{ text: "【省下金額】\n(a) - (h)" }]
     ],
@@ -39,7 +40,7 @@ const getBaseData = (lang: Lang, feeRatePercent: number) => {
       [{ text: "Coupon 5% OFF\n(b)×0.95" }], [{ text: "【Tax 10%】\n(c)×0.1" }],
       [{ text: "【Service Fee】\nTax Amount×Rate" }, { text: `(${feeRatePercent}%)`, color: APP_RED }],
       [{ text: "【Refund】\n(d-e)" }],
-      [{ text: "【Payment】\nTax Incl. 5% OFF\n(c)×1.1" }],
+      [{ text: useCoupon ? "【Payment】\nTax Incl. 5% OFF\n(c)×1.1" : "【Payment】" }],
       [{ text: "【Final Price】", color: APP_RED }, { text: "\n(g)-(f)" }],
       [{ text: "【Saved】\n(a)-(h)" }]
     ]
@@ -51,7 +52,7 @@ const RedCode = ({ code }: { code: string }) => (
   <span style={{ color: APP_RED, width: '30px', textAlign: 'right', flexShrink: 0, fontWeight: 'bold' }}>{code}</span>
 );
 
-const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {} }: any) => (
+const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {}, isFeeRow = false }: any) => (
   <div style={{ padding: '8px 0', borderBottom: emphasize ? 'none' : '1px solid #ddd' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <span style={{ flex: 1, fontSize: '1rem', lineHeight: 1.2, fontWeight: '500', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -62,7 +63,6 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
             </span>
           ))}
         </span>
-        {/* チェックボックスを右側に配置 */}
         {isCouponRow && (
           <input 
             type="checkbox" 
@@ -79,6 +79,11 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
         <RedCode code={code} />
       </div>
     </div>
+    {isFeeRow && (
+      <div style={{ fontSize: '0.8rem', color: '#666', marginTop: '4px' }}>
+        ※店舗、金額により手数料率はかわります。
+      </div>
+    )}
     {showNotice && (
       <div style={{ textAlign: 'right', marginTop: '4px', fontSize: '1.15rem', fontWeight: 'bold' }}>
         <span style={{ color: APP_RED }}>【免税連絡票】</span>
@@ -127,7 +132,7 @@ function App() {
     setInputValue(rawValue === '' ? '' : rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
   };
 
-  const currentItems = useMemo(() => getBaseData(lang, result.feeRatePercent), [lang, result.feeRatePercent]);
+  const currentItems = useMemo(() => getBaseData(lang, result.feeRatePercent, useCoupon), [lang, result.feeRatePercent, useCoupon]);
   const titles = { 
     ja: "免税・ショッピングクーポン\n使用後の最終価格", 
     'zh-CN': "免税/购物优惠券使用后的最终价格", 
@@ -213,7 +218,7 @@ function App() {
           />
 
           <Row labelParts={currentItems[3]} value={result.d} code="(d)" />
-          <Row labelParts={currentItems[4]} value={result.e} code="(e)" />
+          <Row labelParts={currentItems[4]} value={result.e} code="(e)" isFeeRow={true} />
           <Row labelParts={currentItems[5]} value={result.f} code="(f)" isRefund={true} refundDesc={refundDesc[lang]} />
           
           <div style={{ border: `3px solid ${APP_RED}`, padding: '10px', borderRadius: '8px', margin: '10px 0' }}>
