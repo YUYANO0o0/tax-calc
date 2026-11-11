@@ -51,7 +51,7 @@ const RedCode = ({ code }: { code: string }) => (
   <span style={{ color: APP_RED, width: '30px', textAlign: 'right', flexShrink: 0, fontWeight: 'bold' }}>{code}</span>
 );
 
-const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {}, isFeeRow = false, feeDescNode }: any) => (
+const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isFinal = false, refundDesc = "", refundDetail = "", showNotice = false, isCouponRow = false, useCoupon = true, setUseCoupon = () => {}, isFeeRow = false, feeDescNode }: any) => (
   <div style={{ padding: '8px 0', borderBottom: emphasize ? 'none' : '1px solid #ddd' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <span style={{ flex: 1, fontSize: '1rem', lineHeight: 1.2, fontWeight: '500', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -89,7 +89,12 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
         <span style={{ color: '#333' }}>お渡し</span>
       </div>
     )}
-    {isRefund && <div style={{ fontSize: '0.85rem', color: '#666', marginTop: '4px' }}>{refundDesc}</div>}
+    {isRefund && (
+      <div style={{ fontSize: '0.82rem', color: '#666', marginTop: '4px', lineHeight: 1.35 }}>
+        <div>{refundDesc}</div>
+        <div style={{ marginTop: '2px' }}>{refundDetail}</div>
+      </div>
+    )}
   </div>
 );
 
@@ -283,6 +288,14 @@ function App() {
     en: "※Tax exempt amount" 
   };
 
+  // ※免税される金額 の下に追加する文章（全言語対応）
+  const refundDetail = {
+    ja: "空港・港の免税手続端末にて、グリーン判定が出たら税関の確認は完了し、後日返金されます。",
+    'zh-CN': "在机场/港口的退税办理终端，显示绿色判定即完成海关确认，将于日后退款。",
+    'zh-TW': "在機場/港口的退稅辦理終端，顯示綠色判定即完成海關確認，將於日後退款。",
+    en: "At airport/port tax refund kiosks, if a green status is displayed, customs verification is complete and the refund will be processed at a later date."
+  };
+
   const linkStyle = { color: APP_RED, textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold' };
   const openTable = () => setPage('feeTable');
 
@@ -301,7 +314,6 @@ function App() {
     )
   };
 
-  // 下部の案内文（ご指定通り日本語部分を変更）
   const footerNotices: Record<Lang, { line1: string; line2: string; line3: string; line3Notice: string }> = {
     ja: {
       line1: "購入された当日中に",
@@ -311,13 +323,13 @@ function App() {
     },
     'zh-CN': {
       line1: "购买后请务必于当天内",
-      line2: "在退税柜台",
+      line2: "在本店的退税柜台",
       line3: "办理退税手续。",
       line3Notice: "※原则上谢绝在办理退税手续后\n进行退货。"
     },
     'zh-TW': {
       line1: "購買後請務必於當天內",
-      line2: "在退稅櫃檯",
+      line2: "在本店的退稅櫃檯",
       line3: "辦理退稅手續。",
       line3Notice: "※原則上謝絕在辦理退稅手續後\n進行退貨。"
     },
@@ -391,7 +403,14 @@ function App() {
                 feeDescNode={feeDescNodes[lang]} 
               />
               
-              <Row labelParts={currentItems[5]} value={result.f} code="(f)" isRefund={true} refundDesc={refundDesc[lang]} />
+              <Row 
+                labelParts={currentItems[5]} 
+                value={result.f} 
+                code="(f)" 
+                isRefund={true} 
+                refundDesc={refundDesc[lang]} 
+                refundDetail={refundDetail[lang]} 
+              />
               
               <div style={{ border: `3px solid ${APP_RED}`, padding: '10px', borderRadius: '8px', margin: '10px 0' }}>
                 <Row labelParts={currentItems[6]} value={result.g} code="(g)" emphasize={true} />
