@@ -108,7 +108,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
       back: "← 戻る",
       title: "【免税手数料率】",
       calcMethodTitle: "手数料計算方法",
-      calcMethodDesc: "購入金額に応じた手数料率で消費税額をもとに計算",
+      calcMethodDesc: "購入金額に応じた手数料率で\n消費税額をもとに計算",
       rateTitle: "料率",
       r1: "100万円未満",
       r2: "100万円以上300万円未満",
@@ -121,7 +121,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
       back: "← 返回",
       title: "【免税手续费率】",
       calcMethodTitle: "手续费计算方法",
-      calcMethodDesc: "根据购买金额对应的手续费率，基于消费税额计算",
+      calcMethodDesc: "根据购买金额对应的手续费率\n基于消费税额计算",
       rateTitle: "费率",
       r1: "100万日元未满",
       r2: "100万日元以上300万日元未满",
@@ -134,7 +134,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
       back: "← 返回",
       title: "【免稅手續費率】",
       calcMethodTitle: "手續費計算方法",
-      calcMethodDesc: "根據購買金額對應的手續費率，基於消費稅額計算",
+      calcMethodDesc: "根據購買金額對應的手續費率\n基於消費稅額計算",
       rateTitle: "費率",
       r1: "100萬日圓未滿",
       r2: "100萬日圓以上300萬日圓未滿",
@@ -147,7 +147,7 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
       back: "← Back",
       title: "【Tax Exemption Fee Rate】",
       calcMethodTitle: "Calculation Method",
-      calcMethodDesc: "Calculated based on tax amount with rates according to purchase price",
+      calcMethodDesc: "Calculated based on tax amount with rates\naccording to purchase price",
       rateTitle: "Rates",
       r1: "Under 1,000,000 JPY",
       r2: "1,000,000 JPY - Under 3,000,000 JPY",
@@ -175,38 +175,38 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
         {content.back}
       </button>
 
-      <h3 style={{ textAlign: 'center', fontSize: '1.2rem', marginBottom: '15px' }}>{content.title}</h3>
+      <h3 style={{ textAlign: 'center', fontSize: '1.25rem', marginBottom: '15px', fontWeight: 'bold' }}>{content.title}</h3>
 
       <div style={{ border: '2px solid #000', backgroundColor: '#fff', borderRadius: '4px', overflow: 'hidden' }}>
         {/* 計算方法行 */}
         <div style={{ display: 'flex', borderBottom: '2px solid #000' }}>
-          <div style={{ width: '110px', borderRight: '2px solid #000', padding: '10px', backgroundColor: '#f2f2f2', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
+          <div style={{ width: '130px', borderRight: '2px solid #000', padding: '12px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
             {content.calcMethodTitle}
           </div>
-          <div style={{ flex: 1, padding: '10px', backgroundColor: '#f9f9f9', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
+          <div style={{ flex: 1, padding: '12px 10px', backgroundColor: '#fff', textAlign: 'center', whiteSpace: 'pre-line', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '500' }}>
             {content.calcMethodDesc}
           </div>
         </div>
 
         {/* 料率テーブル */}
         <div style={{ display: 'flex', borderBottom: '2px solid #000' }}>
-          <div style={{ width: '110px', borderRight: '2px solid #000', padding: '10px', backgroundColor: '#f2f2f2', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
+          <div style={{ width: '130px', borderRight: '2px solid #000', padding: '10px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
             {content.rateTitle}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '8px 10px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>{content.r1}</span>
               <span style={{ fontWeight: 'bold' }}>23%</span>
             </div>
-            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '8px 10px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>{content.r2}</span>
               <span style={{ fontWeight: 'bold' }}>21%</span>
             </div>
-            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '8px 10px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', borderBottom: '1px solid #000', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>{content.r3}</span>
               <span style={{ fontWeight: 'bold' }}>18%</span>
             </div>
-            <div style={{ display: 'flex', padding: '8px 10px', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>{content.r4}</span>
               <span style={{ fontWeight: 'bold' }}>16%</span>
             </div>
@@ -215,10 +215,10 @@ const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
 
         {/* 例 */}
         <div style={{ display: 'flex' }}>
-          <div style={{ width: '110px', borderRight: '2px solid #000', padding: '10px', backgroundColor: '#f2f2f2', fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
+          <div style={{ width: '130px', borderRight: '2px solid #000', padding: '12px 8px', backgroundColor: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
             {content.exampleTitle}
           </div>
-          <div style={{ flex: 1, padding: '10px', backgroundColor: '#fff', whiteSpace: 'pre-line', lineHeight: 1.4 }}>
+          <div style={{ flex: 1, padding: '12px 10px', backgroundColor: '#fff', whiteSpace: 'pre-line', textAlign: 'center', lineHeight: 1.5 }}>
             {content.exampleText}
           </div>
         </div>
@@ -231,7 +231,7 @@ function App() {
   const [lang, setLang] = useState<Lang>('ja');
   const [inputValue, setInputValue] = useState<string>('1,100,000');
   const [useCoupon, setUseCoupon] = useState<boolean>(true);
-  const [page, setPage] = useState<'calc' | 'feeTable'>('calc'); // 画面切り替えの状態
+  const [page, setPage] = useState<'calc' | 'feeTable'>('calc');
 
   const taxIncludedPrice = useMemo(() => Number(inputValue.replace(/,/g, '')), [inputValue]);
 
