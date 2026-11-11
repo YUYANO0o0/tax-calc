@@ -10,8 +10,7 @@ const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => 
     ja: [
       [{ text: "価格（税込）" }], [{ text: "価格（税抜）" }],
       [{ text: "クーポン5%OFF\n(b)×0.95" }], [{ text: "【消費税10%】\n(c)×0.1" }],
-      // 手数料行は通常のテキストに戻す
-      [{ text: "【手数料】\n消費税額×手数料率" }, { text: `(${feeRatePercent}%)`, color: '#333' }],
+      [{ text: "【手数料】\n消費税額×手数料率" }, { text: `(${feeRatePercent}%)` }],
       [{ text: "【免税額】\n(d-e)" }],
       [{ text: useCoupon ? "【支払金額】\n5%OFF価格税込\n(c)×1.1" : "【支払金額】" }],
       [{ text: "【最終価格】", color: APP_RED }, { text: "\n(g) - (f)" }],
@@ -20,7 +19,7 @@ const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => 
     'zh-CN': [
       [{ text: "价格（含税）" }], [{ text: "价格（不含税）" }],
       [{ text: "优惠券5%OFF\n(b)×0.95" }], [{ text: "【消费税10%】\n(c)×0.1" }],
-      [{ text: "【手续费】\n消费税额×手续费率" }, { text: `(${feeRatePercent}%)`, color: '#333' }],
+      [{ text: "【手续费】\n消费税额×手续费率" }, { text: `(${feeRatePercent}%)` }],
       [{ text: "【免税额】\n(d-e)" }],
       [{ text: useCoupon ? "【支付金额】\n5%OFF含税价\n(c)×1.1" : "【支付金额】" }],
       [{ text: "【最终价格】", color: APP_RED }, { text: "\n(g) - (f)" }],
@@ -29,7 +28,7 @@ const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => 
     'zh-TW': [
       [{ text: "價格（含稅）" }], [{ text: "價格（不含稅）" }],
       [{ text: "優惠券5%OFF\n(b)×0.95" }], [{ text: "【消費稅10%】\n(c)×0.1" }],
-      [{ text: "【手續稅】\n消費稅額×手續費率" }, { text: `(${feeRatePercent}%)`, color: '#333' }],
+      [{ text: "【手續稅】\n消費稅額×手續費率" }, { text: `(${feeRatePercent}%)` }],
       [{ text: "【免稅額】\n(d-e)" }],
       [{ text: useCoupon ? "【支付金額】\n5%OFF含稅價\n(c)×1.1" : "【支付金額】" }],
       [{ text: "【最終價格】", color: APP_RED }, { text: "\n(g) - (f)" }],
@@ -38,7 +37,7 @@ const getBaseData = (lang: Lang, feeRatePercent: number, useCoupon: boolean) => 
     en: [
       [{ text: "Price (Tax Incl.)" }], [{ text: "Price (Tax Excl.)" }],
       [{ text: "Coupon 5% OFF\n(b)×0.95" }], [{ text: "【Tax 10%】\n(c)×0.1" }],
-      [{ text: "【Service Fee】\nTax Amount×Rate" }, { text: `(${feeRatePercent}%)`, color: '#333' }],
+      [{ text: "【Service Fee】\nTax Amount×Rate" }, { text: `(${feeRatePercent}%)` }],
       [{ text: "【Refund】\n(d-e)" }],
       [{ text: useCoupon ? "【Payment】\nTax Incl. 5% OFF\n(c)×1.1" : "【Payment】" }],
       [{ text: "【Final Price】", color: APP_RED }, { text: "\n(g)-(f)" }],
@@ -79,7 +78,6 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
         <RedCode code={code} />
       </div>
     </div>
-    {/* 手数料行の下の注意書き（手数料率にリンクを付与） */}
     {isFeeRow && (
       <div style={{ fontSize: '0.8rem', color: '#666', marginTop: '4px' }}>
         {feeDescNode}
@@ -260,7 +258,7 @@ function App() {
   const currentItems = useMemo(() => getBaseData(lang, result.feeRatePercent, useCoupon), [lang, result.feeRatePercent, useCoupon]);
   
   const titles = { 
-    ja: "免税・ショッピングクーポン\n使用后的最終価格", 
+    ja: "免税・ショッピングクーポン\n使用後の最終価格", 
     'zh-CN': "免税/购物优惠券使用后的最终价格", 
     'zh-TW': "免稅/購物優惠券使用後的最終價格", 
     en: "Final Price After Tax Exemption & Shopping Coupon" 
@@ -273,41 +271,22 @@ function App() {
     en: "※Tax exempt amount" 
   };
 
-  // 各言語ごとの注意書き（「手数料率」部分をクリック可能にするためのパーツ定義）
-  const getFeeDescNode = (l: Lang) => {
-    const linkStyle = { color: APP_RED, textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold' };
-    const openTable = () => setPage('feeTable');
+  // 各言語の「手数料率」部分のみに赤字・下線・クリックイベントを付与
+  const linkStyle = { color: APP_RED, textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold' };
+  const openTable = () => setPage('feeTable');
 
-    switch (l) {
-      case 'zh-CN':
-        return <>※手续费率根据店铺和金额有所不同。</>; // 必要に応じて翻訳調整可ですが、今回は日本語のご要望に合致させています
-      case 'zh-TW':
-        return <>※手續費率根據店舖和金額有所不同。</>;
-      case 'en':
-        return <>*Service fee rates vary by store and amount.</>;
-      case 'ja':
-      default:
-        return (
-          <>
-            ※店舗、金額により<span style={linkStyle} onClick={openTable}>手数料率</span>はかわります。
-          </>
-        );
-    }
-  };
-
-  // 他言語でも「手数料率」の部分にリンクを持たせる場合
   const feeDescNodes: Record<Lang, React.ReactNode> = {
     ja: (
-      <>※店舗、金額により<span style={{ color: APP_RED, textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setPage('feeTable')}>手数料率</span>はかわります。</>
+      <>※店舗、金額により<span style={linkStyle} onClick={openTable}>手数料率</span>はかわります。</>
     ),
     'zh-CN': (
-      <>※手续费率根据店铺和金额有所不同（<span style={{ color: APP_RED, textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setPage('feeTable')}>手续费率</span>）。</>
+      <>※根据店铺和金额，<span style={linkStyle} onClick={openTable}>手续费率</span>有所不同。</>
     ),
     'zh-TW': (
-      <>※手續費率根據店舖和金額有所不同（<span style={{ color: APP_RED, textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setPage('feeTable')}>手續費率</span>）。</>
+      <>※根據店舖和金額，<span style={linkStyle} onClick={openTable}>手續費率</span>有所不同。</>
     ),
     en: (
-      <>*Service fee <span style={{ color: APP_RED, textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setPage('feeTable')}>rates</span> vary by store and amount.</>
+      <>*Service fee <span style={linkStyle} onClick={openTable}>rates</span> vary by store and amount.</>
     )
   };
 
