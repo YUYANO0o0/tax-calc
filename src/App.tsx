@@ -106,7 +106,7 @@ const Row = ({ labelParts, value, code, emphasize = false, isRefund = false, isF
   </div>
 );
 
-// 手数料率表画面（英語のテキストも1画面にすっきり収まるよう微調整）
+// 手数料率表画面
 const FeeTablePage = ({ lang, onBack }: { lang: Lang; onBack: () => void }) => {
   const content = {
     ja: {
@@ -296,12 +296,13 @@ function App() {
 
   const currentItems = useMemo(() => getBaseData(lang, result.feeRatePercent, useCoupon), [lang, result.feeRatePercent, useCoupon]);
   
+  // タイトルを「免税計算」に変更（各言語対応）
   const titles = { 
-    ja: "免税・ショッピングクーポン\n使用後の最終価格", 
-    'zh-CN': "免税/购物优惠券使用后的最终价格", 
-    'zh-TW': "免稅/購物優惠券使用後的最終價格", 
-    en: "Final Price After Tax Exemption & Shopping Coupon",
-    ko: "면세·쇼핑 쿠폰\n사용 후 최종 가격"
+    ja: "免税計算", 
+    'zh-CN': "免税计算", 
+    'zh-TW': "免稅計算", 
+    en: "Tax Exemption Calculation",
+    ko: "면세 계산"
   };
   
   const refundDesc = { 
@@ -421,7 +422,7 @@ function App() {
           <FeeTablePage lang={lang} onBack={() => setPage('calc')} />
         ) : (
           <>
-            <h2 style={{ fontSize: '1.25rem', textAlign: 'center', margin: '0 0 20px 0', whiteSpace: 'pre-line', color: '#000000' }}>{titles[lang]}</h2>
+            <h2 style={{ fontSize: '1.5rem', textAlign: 'center', margin: '0 0 20px 0', whiteSpace: 'pre-line', color: '#000000' }}>{titles[lang]}</h2>
 
             <div style={{ border: '2px solid #cccccc', padding: '15px', borderRadius: '10px', backgroundColor: '#ffffff', color: '#000000', boxSizing: 'border-box' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '2px solid #888888', alignItems: 'center' }}>
