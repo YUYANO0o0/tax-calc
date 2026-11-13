@@ -1,6 +1,6 @@
 {
-  "name": "免税クーポン計算",
-  "short_name": "免税クーポン計算",
+  "name": "免税計算",
+  "short_name": "免税計算",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
